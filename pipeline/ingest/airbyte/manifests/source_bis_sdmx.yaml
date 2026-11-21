@@ -1,0 +1,127 @@
+# Airbyte low-code (declarative) source for the BIS Statistics SDMX API.
+#
+# K2 — Household Debt Service Ratio (WS_DSR, borrowers = households & NPISH).
+# BIS uses ISO-2 country codes. Full refresh each run (see OECD manifest).
+
+version: 7.49.0
+type: DeclarativeSource
+
+check:
+  type: CheckStream
+  stream_names:
+    - k2_household_dsr
+
+definitions:
+  bis_stream:
+    type: DeclarativeStream
+    primary_key: []
+    schema_loader:
+      type: InlineSchemaLoader
+      schema:
+        $ref: "#/schemas/sdmx_observation"
+    retriever:
+      type: SimpleRetriever
+      requester:
+        type: HttpRequester
+        url_base: https://stats.bis.org/api/v1/data/
+        path: >-
+          {{ parameters['dataflow'] }}/{{ parameters['key_template'] | replace('{countries}', config['countries'] | join('+')) }}
+        http_method: GET
+        request_parameters:
+          startPeriod: "{{ config['start_period'] }}"
+          format: csv
+        request_headers:
+          User-Agent: divergence-index-pipeline
+          Accept-Encoding: identity  # CsvDecoder streams raw bytes; avoid gzip bodies
+        error_handler:
+          type: DefaultErrorHandler
+          max_retries: 5
+          backoff_strategies:
+            - type: ExponentialBackoffStrategy
+              factor: 10
+          response_filters:
+            - type: HttpResponseFilter
+              http_codes: [429, 500, 502, 503, 504]
+              action: RETRY
+      record_selector:
+        type: RecordSelector
+        extractor:
+          type: DpathExtractor
+          field_path: []
+      decoder:
+        type: CsvDecoder
+      paginator:
+        type: NoPagination
+    transformations:
+      - type: AddFields
+        fields:
+          - path: [raw]
+            value: "{{ record }}"
+          - path: [source]
+            value: BIS
+          - path: [indicator_id]
+            value: "{{ parameters['indicator_id'] }}"
+          - path: [dataflow]
+            value: "{{ parameters['dataflow'] }}"
+          - path: [ref_area]
+            value: "{{ record[parameters['area_column']] }}"
+          - path: [freq]
+            value: "{{ record['FREQ'] }}"
+          - path: [time_period]
+            value: "{{ record['TIME_PERIOD'] }}"
+          - path: [obs_value]
+            value: "{{ record['OBS_VALUE'] }}"
+          - path: [obs_status]
+            value: "{{ record.get('OBS_STATUS', '') }}"
+          - path: [unit_measure]
+            value: "{{ record.get('UNIT_MEASURE', '') }}"
+          - path: [series_variant]
+            value: ""
+
+streams:
+  - $ref: "#/definitions/bis_stream"
+    name: k2_household_dsr
+    $parameters:
+      indicator_id: K2
+      dataflow: WS_DSR
+      area_column: BORROWERS_CTY
+      # Quarterly | country | H = households & NPISHs
+      key_template: "Q.{countries}.H"
+
+schemas:
+  sdmx_observation:
+    $schema: http://json-schema.org/draft-07/schema#
+    type: object
+    additionalProperties: true
+    properties:
+      source: {type: string}
+      indicator_id: {type: string}
+      dataflow: {type: string}
+      ref_area: {type: string}
+      freq: {type: string}
+      time_period: {type: string}
+      obs_value: {type: ["null", string]}
+      obs_status: {type: ["null", string]}
+      unit_measure: {type: ["null", string]}
+      series_variant: {type: ["null", string]}
+      raw: {type: object, additionalProperties: true}
+
+spec:
+  type: Spec
+  connection_specification:
+    $schema: http://json-schema.org/draft-07/schema#
+    type: object
+    required: [countries, start_period]
+    additionalProperties: true
+    properties:
+      countries:
+        type: array
+        title: Countries (ISO-2, BIS convention)
+        items: {type: string}
+        default: [US, CA, GB, DE, AU, JP, KR]
+        order: 0
+      start_period:
+        type: string
+        title: Start period
+        default: "2009"
+        order: 1

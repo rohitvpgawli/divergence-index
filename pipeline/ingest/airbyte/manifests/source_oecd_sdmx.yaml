@@ -1,0 +1,235 @@
+# Airbyte low-code (declarative) source for the OECD SDMX REST API.
+#
+# One stream per Divergence Index indicator sourced from OECD. Every stream
+# is a full-refresh pull of the whole history from `start_period`, because
+# OECD revises national accounts retroactively and the bronze layer keeps an
+# immutable snapshot per run (vintage tracking, spec §6 step 4.3).
+#
+# The same YAML can be imported into the Airbyte Connector Builder (OSS or
+# Cloud) unchanged; locally it is executed by PyAirbyte (see run_ingest.py).
+#
+# Series keys were verified against the live API on 2026-11-21. Dimension
+# order differs per dataflow, so each stream carries its own key template;
+# `{countries}` is replaced with e.g. USA+CAN+GBR+DEU+AUS+JPN+KOR.
+
+version: 7.49.0
+type: DeclarativeSource
+
+check:
+  type: CheckStream
+  stream_names:
+    - h3_unemployment_rate
+
+definitions:
+  oecd_stream:
+    type: DeclarativeStream
+    primary_key: []
+    schema_loader:
+      type: InlineSchemaLoader
+      schema:
+        $ref: "#/schemas/sdmx_observation"
+    retriever:
+      type: SimpleRetriever
+      requester:
+        type: HttpRequester
+        url_base: https://sdmx.oecd.org/public/rest/data/
+        path: >-
+          {{ parameters['dataflow'] }}/{{ parameters['key_template'] | replace('{countries}', config['countries'] | join('+')) }}
+        http_method: GET
+        request_parameters:
+          startPeriod: "{{ config['start_period'] }}"
+          format: csv
+        request_headers:
+          User-Agent: divergence-index-pipeline
+          Accept-Encoding: identity  # CsvDecoder streams raw bytes; avoid gzip bodies
+        error_handler:
+          type: DefaultErrorHandler
+          max_retries: 5
+          backoff_strategies:
+            - type: ExponentialBackoffStrategy
+              factor: 10
+          response_filters:
+            # OECD throttles anonymous clients; back off rather than fail.
+            - type: HttpResponseFilter
+              http_codes: [429, 500, 502, 503, 504]
+              action: RETRY
+      record_selector:
+        type: RecordSelector
+        extractor:
+          type: DpathExtractor
+          field_path: []
+      decoder:
+        type: CsvDecoder
+      paginator:
+        type: NoPagination
+    transformations:
+      - type: AddFields
+        fields:
+          - path: [raw]
+            value: "{{ record }}"
+          - path: [source]
+            value: OECD
+          - path: [indicator_id]
+            value: "{{ parameters['indicator_id'] }}"
+          - path: [dataflow]
+            value: "{{ parameters['dataflow'] }}"
+          - path: [ref_area]
+            value: "{{ record['REF_AREA'] }}"
+          - path: [freq]
+            value: "{{ record['FREQ'] }}"
+          - path: [time_period]
+            value: "{{ record['TIME_PERIOD'] }}"
+          - path: [obs_value]
+            value: "{{ record['OBS_VALUE'] }}"
+          - path: [obs_status]
+            value: "{{ record.get('OBS_STATUS', '') }}"
+          - path: [unit_measure]
+            value: "{{ record.get('UNIT_MEASURE', '') }}"
+          - path: [series_variant]
+            value: "{{ record.get(parameters['variant_column'], '') if parameters.get('variant_column') else '' }}"
+
+streams:
+  - $ref: "#/definitions/oecd_stream"
+    name: h1_real_gdp_per_capita
+    $parameters:
+      indicator_id: H1
+      dataflow: OECD.SDD.NAD,DSD_NAMAIN1@DF_QNA_EXPENDITURE_CAPITA,1.1
+      # Q | calendar+SA | area | S1 | S1 | GDP per capita | _Z | _Z | _Z | USD PPP per person | chain-linked volume | levels | T0102
+      key_template: "Q.Y.{countries}.S1.S1.B1GQ_POP._Z._Z._Z.USD_PPP_PS.LR.LA.T0102"
+
+  - $ref: "#/definitions/oecd_stream"
+    name: h2_share_price_index
+    $parameters:
+      indicator_id: H2
+      dataflow: OECD.SDD.STES,DSD_STES@DF_FINMARK,4.0
+      # Broad national share price index (monthly). Deflated by K4 headline CPI in silver.
+      key_template: "{countries}.M.SHARE.IX._Z._Z._Z._Z.N"
+
+  - $ref: "#/definitions/oecd_stream"
+    name: h3_unemployment_rate
+    $parameters:
+      indicator_id: H3
+      dataflow: OECD.SDD.TPS,DSD_LFS@DF_IALFS_UNE_M,1.0
+      # Harmonised unemployment rate, % of labour force, SA, total, 15+, monthly
+      key_template: "{countries}.UNE_LF_M.PT_LF_SUB._Z.Y._T.Y_GE15._Z.M"
+
+  - $ref: "#/definitions/oecd_stream"
+    name: k1_real_hh_disposable_income_pc
+    $parameters:
+      indicator_id: K1
+      dataflow: OECD.SDD.NAD,DSD_HHDASH@DF_HHDASH_INDIC,1.1
+      # Real gross disposable income per capita, households + NPISH (index, SA)
+      key_template: "Q.{countries}.B6GS1M_R_POP."
+
+  - $ref: "#/definitions/oecd_stream"
+    name: k3_house_price_to_income
+    $parameters:
+      indicator_id: K3
+      dataflow: OECD.ECO.MPD,DSD_AN_HOUSE_PRICES@DF_HOUSE_PRICES,1.0
+      # House price-to-disposable-income ratio index, SA
+      key_template: "{countries}.Q.HPI_YDH.IX.S"
+
+  - $ref: "#/definitions/oecd_stream"
+    name: k4_cpi_components
+    $parameters:
+      indicator_id: K4
+      dataflow: OECD.SDD.TPS,DSD_PRICES@DF_PRICES_ALL,1.0
+      # All frequencies (AUS publishes quarterly CPI only before 2024).
+      # _T = headline (also the H2 deflator), CP01 = food, CP045_0722 = energy.
+      key_template: "{countries}..N.CPI.IX._T+CP01+CP045_0722.N._Z"
+      variant_column: EXPENDITURE
+
+  # --- Supporting series required by Methodology v0.1 -----------------------
+  # K4 is now food & energy CPI ÷ NOMINAL household disposable income per
+  # capita, and K1 for KOR is missing from the Household Dashboard, so the
+  # nominal income, population and household-consumption (deflator) inputs
+  # are ingested directly.
+
+  - $ref: "#/definitions/oecd_stream"
+    name: k1_hh_disposable_income_nominal
+    $parameters:
+      indicator_id: K1_NOM
+      dataflow: OECD.SDD.NAD,DSD_NASEC1@DF_QSA,1.1
+      # Households + NPISH gross disposable income, national currency, current prices.
+      # SA (ADJUSTMENT=Y) for USA/CAN/GBR/DEU/AUS; JPN and KOR are published NSA only.
+      key_template: "Q..{countries}.S1M...B6G......."
+      variant_column: ADJUSTMENT
+
+  - $ref: "#/definitions/oecd_stream"
+    name: ref_population
+    $parameters:
+      indicator_id: POP
+      dataflow: OECD.SDD.NAD,DSD_NAMAIN1@DF_QNA_POP_EMPNC,1.1
+      # Includes employment breakdowns; silver keeps TRANSACTION=POP.
+      key_template: "Q..{countries}.........."
+      variant_column: TRANSACTION
+
+  - $ref: "#/definitions/oecd_stream"
+    name: ref_hh_consumption
+    $parameters:
+      indicator_id: P31
+      dataflow: OECD.SDD.NAD,DSD_NAMAIN1@DF_QNA,1.1
+      # Household final consumption, current prices (V) and volume (L/LR):
+      # ratio gives the household consumption deflator used to make K1 real.
+      key_template: "Q..{countries}...P31DC......."
+      variant_column: PRICE_BASE
+
+  # --- Added for DATA_CONTRACT §10 decisions (2026-11-21) ----------------------
+
+  - $ref: "#/definitions/oecd_stream"
+    name: ref_gdp_volume
+    $parameters:
+      indicator_id: B1GQ
+      dataflow: OECD.SDD.NAD,DSD_NAMAIN1@DF_QNA,1.1
+      # D4: GDP, national currency, all price bases (LR = chain-linked volume), SA.
+      # H1 = B1GQ (LR) ÷ the same population series used for K1.
+      key_template: "Q.Y.{countries}.S1.S1.B1GQ._Z._Z._Z.XDC...T0102"  # expenditure-side table, same as H1
+      variant_column: PRICE_BASE
+
+  - $ref: "#/definitions/oecd_stream"
+    name: ref_cpi_weights
+    $parameters:
+      indicator_id: CPI_W
+      dataflow: OECD.SDD.TPS,DSD_PRICES@DF_PRICES_N_IT_W,1.0
+      # D2: national CPI basket weights (per mille, annual) for food and energy.
+      key_template: "{countries}.A.N.IT_W.10P3EXP_CNSMR.CP01+CP045_0722+_T.N._Z"
+      variant_column: EXPENDITURE
+
+schemas:
+  sdmx_observation:
+    $schema: http://json-schema.org/draft-07/schema#
+    type: object
+    additionalProperties: true
+    properties:
+      source: {type: string}
+      indicator_id: {type: string}
+      dataflow: {type: string}
+      ref_area: {type: string}
+      freq: {type: string}
+      time_period: {type: string}
+      obs_value: {type: ["null", string]}
+      obs_status: {type: ["null", string]}
+      unit_measure: {type: ["null", string]}
+      series_variant: {type: ["null", string]}
+      raw: {type: object, additionalProperties: true}
+
+spec:
+  type: Spec
+  connection_specification:
+    $schema: http://json-schema.org/draft-07/schema#
+    type: object
+    required: [countries, start_period]
+    additionalProperties: true
+    properties:
+      countries:
+        type: array
+        title: Countries (ISO-3)
+        items: {type: string}
+        default: [USA, CAN, GBR, DEU, AUS, JPN, KOR]
+        order: 0
+      start_period:
+        type: string
+        title: Start period
+        description: First period to request. One year before the 2010-Q1 window so quarterly averaging has full coverage.
+        default: "2009"
+        order: 1

@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+.pytest_cache/
+data/bronze/_airbyte_cache/
+.DS_Store
+data/warehouse.duckdb
+data/warehouse.duckdb.wal
+pipeline/transform/target/
+pipeline/transform/dbt_packages/
+pipeline/transform/logs/
+logs/

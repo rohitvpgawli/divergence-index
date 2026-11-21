@@ -1,0 +1,9 @@
+# Local DuckDB warehouse. Paths are relative to the repo root: run dbt from there,
+#   uv run dbt build --project-dir pipeline/transform --profiles-dir pipeline/transform
+divergence_index:
+  target: local
+  outputs:
+    local:
+      type: duckdb
+      path: "{{ env_var('DUCKDB_PATH', 'data/warehouse.duckdb') }}"
+      threads: 4

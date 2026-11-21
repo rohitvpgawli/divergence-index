@@ -1,0 +1,207 @@
+version: 2
+
+models:
+  - name: stg_h1_real_gdp_per_capita
+    description: "Latest vintage, typed. H1 — real GDP per capita (OECD QNA, USD PPP chain-linked volume, SA)."
+    data_tests:
+      - unique_series_observation:
+          columns: [country_iso3, freq, time_period, adjustment, sector, accounting_entry, transaction, price_base, expenditure, measure, unit_measure, transformation, ref_year_price, table_identifier]
+    columns:
+      - name: country_iso3
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('countries')
+                field: iso3
+      - name: period_start_date
+        data_tests: [not_null]
+      - name: time_period
+        data_tests: [not_null]
+  - name: stg_h2_share_price_index
+    description: "Latest vintage, typed. H2 — national share price index, monthly, nominal (OECD FINMARK)."
+    data_tests:
+      - unique_series_observation:
+          columns: [country_iso3, freq, time_period, adjustment, sector, accounting_entry, transaction, price_base, expenditure, measure, unit_measure, transformation, ref_year_price, table_identifier]
+    columns:
+      - name: country_iso3
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('countries')
+                field: iso3
+      - name: period_start_date
+        data_tests: [not_null]
+      - name: time_period
+        data_tests: [not_null]
+  - name: stg_h3_unemployment_rate
+    description: "Latest vintage, typed. H3 — harmonised unemployment rate, monthly, SA (OECD IALFS)."
+    data_tests:
+      - unique_series_observation:
+          columns: [country_iso3, freq, time_period, adjustment, sector, accounting_entry, transaction, price_base, expenditure, measure, unit_measure, transformation, ref_year_price, table_identifier]
+    columns:
+      - name: country_iso3
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('countries')
+                field: iso3
+      - name: period_start_date
+        data_tests: [not_null]
+      - name: time_period
+        data_tests: [not_null]
+  - name: stg_k1_real_hh_disposable_income_pc
+    description: "Latest vintage, typed. K1 — real household gross disposable income per capita, index, SA (OECD Household Dashboard). KOR not published."
+    data_tests:
+      - unique_series_observation:
+          columns: [country_iso3, freq, time_period, adjustment, sector, accounting_entry, transaction, price_base, expenditure, measure, unit_measure, transformation, ref_year_price, table_identifier]
+    columns:
+      - name: country_iso3
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('countries')
+                field: iso3
+      - name: period_start_date
+        data_tests: [not_null]
+      - name: time_period
+        data_tests: [not_null]
+  - name: stg_k1_hh_disposable_income_nominal
+    description: "Latest vintage, typed. Nominal household + NPISH gross disposable income, national currency (OECD QSA). SA for USA/CAN/GBR/DEU/AUS; JPN/KOR NSA only."
+    data_tests:
+      - unique_series_observation:
+          columns: [country_iso3, freq, time_period, adjustment, sector, accounting_entry, transaction, price_base, expenditure, measure, unit_measure, transformation, ref_year_price, table_identifier]
+    columns:
+      - name: country_iso3
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('countries')
+                field: iso3
+      - name: period_start_date
+        data_tests: [not_null]
+      - name: time_period
+        data_tests: [not_null]
+  - name: stg_k2_household_dsr
+    description: "Latest vintage, typed. K2 — household debt service ratio, % of income (BIS WS_DSR). NSA."
+    data_tests:
+      - unique_series_observation:
+          columns: [country_iso3, freq, time_period, adjustment, sector, accounting_entry, transaction, price_base, expenditure, measure, unit_measure, transformation, ref_year_price, table_identifier]
+    columns:
+      - name: country_iso3
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('countries')
+                field: iso3
+      - name: period_start_date
+        data_tests: [not_null]
+      - name: time_period
+        data_tests: [not_null]
+  - name: stg_k3_house_price_to_income
+    description: "Latest vintage, typed. K3 — house price-to-income ratio index, SA (OECD Analytical House Prices)."
+    data_tests:
+      - unique_series_observation:
+          columns: [country_iso3, freq, time_period, adjustment, sector, accounting_entry, transaction, price_base, expenditure, measure, unit_measure, transformation, ref_year_price, table_identifier]
+    columns:
+      - name: country_iso3
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('countries')
+                field: iso3
+      - name: period_start_date
+        data_tests: [not_null]
+      - name: time_period
+        data_tests: [not_null]
+  - name: stg_k4_cpi_components
+    description: "Latest vintage, typed. K4 inputs — CPI headline (_T), food (CP01), energy (CP045_0722); NSA (OECD PRICES)."
+    data_tests:
+      - unique_series_observation:
+          columns: [country_iso3, freq, time_period, adjustment, sector, accounting_entry, transaction, price_base, expenditure, measure, unit_measure, transformation, ref_year_price, table_identifier]
+    columns:
+      - name: country_iso3
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('countries')
+                field: iso3
+      - name: period_start_date
+        data_tests: [not_null]
+      - name: time_period
+        data_tests: [not_null]
+  - name: stg_ref_population
+    description: "Latest vintage, typed. Population and employment (OECD QNA). Per-capita divisor."
+    data_tests:
+      - unique_series_observation:
+          columns: [country_iso3, freq, time_period, adjustment, sector, accounting_entry, transaction, price_base, expenditure, measure, unit_measure, transformation, ref_year_price, table_identifier]
+    columns:
+      - name: country_iso3
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('countries')
+                field: iso3
+      - name: period_start_date
+        data_tests: [not_null]
+      - name: time_period
+        data_tests: [not_null]
+  - name: stg_ref_hh_consumption
+    description: "Latest vintage, typed. Household final consumption, current prices and volume (OECD QNA). Deflator input."
+    data_tests:
+      - unique_series_observation:
+          columns: [country_iso3, freq, time_period, adjustment, sector, accounting_entry, transaction, price_base, expenditure, measure, unit_measure, transformation, ref_year_price, table_identifier]
+    columns:
+      - name: country_iso3
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('countries')
+                field: iso3
+      - name: period_start_date
+        data_tests: [not_null]
+      - name: time_period
+        data_tests: [not_null]
+  - name: stg_ref_gdp_volume
+    description: "Latest vintage, typed. GDP, national currency, current prices and chain-linked volume, SA (OECD QNA). H1 numerator (D4)."
+    data_tests:
+      - unique_series_observation:
+          columns: [country_iso3, freq, time_period, adjustment, sector, accounting_entry, transaction, price_base, expenditure, measure, unit_measure, transformation, ref_year_price, table_identifier]
+    columns:
+      - name: country_iso3
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('countries')
+                field: iso3
+      - name: period_start_date
+        data_tests: [not_null]
+      - name: time_period
+        data_tests: [not_null]
+  - name: stg_ref_cpi_weights
+    description: "Latest vintage, typed. National CPI basket weights, per mille, annual: food, energy, total (OECD). K4 food/energy weighting (D2)."
+    data_tests:
+      - unique_series_observation:
+          columns: [country_iso3, freq, time_period, adjustment, sector, accounting_entry, transaction, price_base, expenditure, measure, unit_measure, transformation, ref_year_price, table_identifier]
+    columns:
+      - name: country_iso3
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('countries')
+                field: iso3
+      - name: period_start_date
+        data_tests: [not_null]
+      - name: time_period
+        data_tests: [not_null]

@@ -1,0 +1,544 @@
+{
+  "schema_version": "1.0.0-mock",
+  "run_id": "2026-11-21T06:00:00Z_mock",
+  "run_timestamp_utc": "2026-11-21T06:00:00Z",
+  "git_commit": "mock",
+  "run_status": "mock",
+  "latest_published_quarter": "2026-Q3",
+  "latest_complete_common_quarter": "2026-Q2",
+  "latest_complete_quarter_by_country": {
+    "AUS": "2026-Q2",
+    "CAN": "2026-Q2",
+    "DEU": "2026-Q2",
+    "GBR": "2026-Q2",
+    "JPN": "2026-Q2",
+    "KOR": "2026-Q2",
+    "USA": "2026-Q2"
+  },
+  "baseline": {
+    "z_window": [
+      "2010-Q1",
+      "2019-Q4"
+    ],
+    "idx100_anchor": "2019-Q4"
+  },
+  "indicators": {
+    "H1": {
+      "label": "Real GDP per capita",
+      "source": "OECD",
+      "dataset": "QNA",
+      "series_keys": {
+        "AUS": "MOCK",
+        "CAN": "MOCK",
+        "DEU": "MOCK",
+        "GBR": "MOCK",
+        "JPN": "MOCK",
+        "KOR": "MOCK",
+        "USA": "MOCK"
+      },
+      "native_frequency": "Q",
+      "unit": "Chained-volume national currency per person, SA",
+      "sa_status": {
+        "AUS": "SA",
+        "CAN": "SA",
+        "DEU": "SA",
+        "GBR": "SA",
+        "JPN": "SA",
+        "KOR": "SA",
+        "USA": "SA"
+      },
+      "source_base_year": null,
+      "vintage_date": {
+        "AUS": "2026-11-21",
+        "CAN": "2026-11-21",
+        "DEU": "2026-11-21",
+        "GBR": "2026-11-21",
+        "JPN": "2026-11-21",
+        "KOR": "2026-11-21",
+        "USA": "2026-11-21"
+      },
+      "z_baseline_stats": {
+        "AUS": {
+          "mean": 77468.17052678186,
+          "sd": 2646.5670498652394,
+          "n_quarters": 40
+        },
+        "CAN": {
+          "mean": 61509.59186168281,
+          "sd": 3340.768253206049,
+          "n_quarters": 40
+        },
+        "DEU": {
+          "mean": 38767.01888067679,
+          "sd": 1599.6432710880042,
+          "n_quarters": 40
+        },
+        "GBR": {
+          "mean": 33423.40339765486,
+          "sd": 1257.8078708155554,
+          "n_quarters": 40
+        },
+        "JPN": {
+          "mean": 4467646.660583432,
+          "sd": 216386.1746235487,
+          "n_quarters": 40
+        },
+        "KOR": {
+          "mean": 32098510.319276016,
+          "sd": 1610589.840083904,
+          "n_quarters": 40
+        },
+        "USA": {
+          "mean": 62841.21215368509,
+          "sd": 3595.89982363113,
+          "n_quarters": 40
+        }
+      },
+      "baseline_window_override": {}
+    },
+    "H2": {
+      "label": "Real equity prices",
+      "source": "OECD",
+      "dataset": "MEI_FIN",
+      "series_keys": {
+        "AUS": "MOCK",
+        "CAN": "MOCK",
+        "DEU": "MOCK",
+        "GBR": "MOCK",
+        "JPN": "MOCK",
+        "KOR": "MOCK",
+        "USA": "MOCK"
+      },
+      "native_frequency": "M",
+      "unit": "Quarterly avg. of index level / headline CPI x 100",
+      "sa_status": {
+        "AUS": "SA",
+        "CAN": "SA",
+        "DEU": "SA",
+        "GBR": "SA",
+        "JPN": "SA",
+        "KOR": "SA",
+        "USA": "SA"
+      },
+      "source_base_year": null,
+      "vintage_date": {
+        "AUS": "2026-11-21",
+        "CAN": "2026-11-21",
+        "DEU": "2026-11-21",
+        "GBR": "2026-11-21",
+        "JPN": "2026-11-21",
+        "KOR": "2026-11-21",
+        "USA": "2026-11-21"
+      },
+      "z_baseline_stats": {
+        "AUS": {
+          "mean": 144.54560182898194,
+          "sd": 38.8766301756155,
+          "n_quarters": 40
+        },
+        "CAN": {
+          "mean": 145.0624953916714,
+          "sd": 16.265900491400668,
+          "n_quarters": 40
+        },
+        "DEU": {
+          "mean": 169.61044712402497,
+          "sd": 57.07708785216392,
+          "n_quarters": 40
+        },
+        "GBR": {
+          "mean": 154.73347196668357,
+          "sd": 37.54185763882406,
+          "n_quarters": 40
+        },
+        "JPN": {
+          "mean": 112.32887267942654,
+          "sd": 22.015095365883123,
+          "n_quarters": 40
+        },
+        "KOR": {
+          "mean": 107.43797724799171,
+          "sd": 18.597593639966256,
+          "n_quarters": 40
+        },
+        "USA": {
+          "mean": 99.35801397638201,
+          "sd": 11.17164597640901,
+          "n_quarters": 40
+        }
+      },
+      "baseline_window_override": {}
+    },
+    "H3": {
+      "label": "Unemployment rate",
+      "source": "OECD",
+      "dataset": "LFS",
+      "series_keys": {
+        "AUS": "MOCK",
+        "CAN": "MOCK",
+        "DEU": "MOCK",
+        "GBR": "MOCK",
+        "JPN": "MOCK",
+        "KOR": "MOCK",
+        "USA": "MOCK"
+      },
+      "native_frequency": "M",
+      "unit": "% of labour force, SA, quarterly avg.",
+      "sa_status": {
+        "AUS": "SA",
+        "CAN": "SA",
+        "DEU": "SA",
+        "GBR": "SA",
+        "JPN": "SA",
+        "KOR": "SA",
+        "USA": "SA"
+      },
+      "source_base_year": null,
+      "vintage_date": {
+        "AUS": "2026-11-21",
+        "CAN": "2026-11-21",
+        "DEU": "2026-11-21",
+        "GBR": "2026-11-21",
+        "JPN": "2026-11-21",
+        "KOR": "2026-11-21",
+        "USA": "2026-11-21"
+      },
+      "z_baseline_stats": {
+        "AUS": {
+          "mean": 4.140105237708833,
+          "sd": 0.6801080535669186,
+          "n_quarters": 40
+        },
+        "CAN": {
+          "mean": 6.966912359944061,
+          "sd": 0.7042230856345479,
+          "n_quarters": 40
+        },
+        "DEU": {
+          "mean": 6.012691672784446,
+          "sd": 0.7146002834128201,
+          "n_quarters": 40
+        },
+        "GBR": {
+          "mean": 6.72622269724508,
+          "sd": 0.7202714207510378,
+          "n_quarters": 40
+        },
+        "JPN": {
+          "mean": 3.932327309292249,
+          "sd": 0.7295587409615543,
+          "n_quarters": 40
+        },
+        "KOR": {
+          "mean": 2.831527974511849,
+          "sd": 0.4362902289454529,
+          "n_quarters": 40
+        },
+        "USA": {
+          "mean": 8.639648137106331,
+          "sd": 0.6899111034642099,
+          "n_quarters": 40
+        }
+      },
+      "baseline_window_override": {}
+    },
+    "K1": {
+      "label": "Real household disposable income per capita",
+      "source": "OECD",
+      "dataset": "NAAG",
+      "series_keys": {
+        "AUS": "MOCK",
+        "CAN": "MOCK",
+        "DEU": "MOCK",
+        "GBR": "MOCK",
+        "JPN": "MOCK",
+        "KOR": "MOCK",
+        "USA": "MOCK"
+      },
+      "native_frequency": "Q",
+      "unit": "Real HHDI per person, national currency, SA",
+      "sa_status": {
+        "AUS": "SA",
+        "CAN": "SA",
+        "DEU": "SA",
+        "GBR": "SA",
+        "JPN": "SA",
+        "KOR": "SA",
+        "USA": "SA"
+      },
+      "source_base_year": null,
+      "vintage_date": {
+        "AUS": "2026-11-21",
+        "CAN": "2026-11-21",
+        "DEU": "2026-11-21",
+        "GBR": "2026-11-21",
+        "JPN": "2026-11-21",
+        "KOR": "2026-11-21",
+        "USA": "2026-11-21"
+      },
+      "z_baseline_stats": {
+        "AUS": {
+          "mean": 51561.499462373824,
+          "sd": 1972.2437484281356,
+          "n_quarters": 40
+        },
+        "CAN": {
+          "mean": 35313.55760638027,
+          "sd": 1029.460637255509,
+          "n_quarters": 40
+        },
+        "DEU": {
+          "mean": 23776.885282934534,
+          "sd": 1065.0733213476583,
+          "n_quarters": 40
+        },
+        "GBR": {
+          "mean": 21227.348354577807,
+          "sd": 972.0440065708356,
+          "n_quarters": 40
+        },
+        "JPN": {
+          "mean": 2663316.8767965315,
+          "sd": 171505.84411565057,
+          "n_quarters": 40
+        },
+        "KOR": {
+          "mean": 17522710.06452909,
+          "sd": 1019046.9417133281,
+          "n_quarters": 40
+        },
+        "USA": {
+          "mean": 46417.18042268282,
+          "sd": 2597.6690187441322,
+          "n_quarters": 40
+        }
+      },
+      "baseline_window_override": {}
+    },
+    "K2": {
+      "label": "Household debt service ratio",
+      "source": "BIS",
+      "dataset": "WS_DSR",
+      "series_keys": {
+        "AUS": "MOCK",
+        "CAN": "MOCK",
+        "DEU": "MOCK",
+        "GBR": "MOCK",
+        "JPN": "MOCK",
+        "KOR": "MOCK",
+        "USA": "MOCK"
+      },
+      "native_frequency": "Q",
+      "unit": "% of household disposable income",
+      "sa_status": {
+        "AUS": "SA",
+        "CAN": "SA",
+        "DEU": "SA",
+        "GBR": "SA",
+        "JPN": "SA",
+        "KOR": "SA",
+        "USA": "SA"
+      },
+      "source_base_year": null,
+      "vintage_date": {
+        "AUS": "2026-11-21",
+        "CAN": "2026-11-21",
+        "DEU": "2026-11-21",
+        "GBR": "2026-11-21",
+        "JPN": "2026-11-21",
+        "KOR": "2026-11-21",
+        "USA": "2026-11-21"
+      },
+      "z_baseline_stats": {
+        "AUS": {
+          "mean": 12.27638291593963,
+          "sd": 0.2793301649411852,
+          "n_quarters": 40
+        },
+        "CAN": {
+          "mean": 13.278076151015515,
+          "sd": 0.31090318188555116,
+          "n_quarters": 40
+        },
+        "DEU": {
+          "mean": 6.662585893777634,
+          "sd": 0.14341677595730137,
+          "n_quarters": 40
+        },
+        "GBR": {
+          "mean": 9.871698885985518,
+          "sd": 0.1645950902594812,
+          "n_quarters": 40
+        },
+        "JPN": {
+          "mean": 6.3603893238819795,
+          "sd": 0.6083031894616855,
+          "n_quarters": 40
+        },
+        "KOR": {
+          "mean": 11.420224885989597,
+          "sd": 0.2584696586241494,
+          "n_quarters": 40
+        },
+        "USA": {
+          "mean": 11.25249197311741,
+          "sd": 0.4326971554950878,
+          "n_quarters": 40
+        }
+      },
+      "baseline_window_override": {}
+    },
+    "K3": {
+      "label": "House price-to-income ratio",
+      "source": "OECD",
+      "dataset": "HOUSE_PRICES",
+      "series_keys": {
+        "AUS": "MOCK",
+        "CAN": "MOCK",
+        "DEU": "MOCK",
+        "GBR": "MOCK",
+        "JPN": "MOCK",
+        "KOR": "MOCK",
+        "USA": "MOCK"
+      },
+      "native_frequency": "Q",
+      "unit": "OECD standardised ratio index",
+      "sa_status": {
+        "AUS": "SA",
+        "CAN": "SA",
+        "DEU": "SA",
+        "GBR": "SA",
+        "JPN": "SA",
+        "KOR": "SA",
+        "USA": "SA"
+      },
+      "source_base_year": null,
+      "vintage_date": {
+        "AUS": "2026-11-21",
+        "CAN": "2026-11-21",
+        "DEU": "2026-11-21",
+        "GBR": "2026-11-21",
+        "JPN": "2026-11-21",
+        "KOR": "2026-11-21",
+        "USA": "2026-11-21"
+      },
+      "z_baseline_stats": {
+        "AUS": {
+          "mean": 113.74578052221705,
+          "sd": 10.958829593052949,
+          "n_quarters": 40
+        },
+        "CAN": {
+          "mean": 99.00365851655542,
+          "sd": 8.504692460922648,
+          "n_quarters": 40
+        },
+        "DEU": {
+          "mean": 95.1387542199806,
+          "sd": 7.905703078945927,
+          "n_quarters": 40
+        },
+        "GBR": {
+          "mean": 105.97628734051287,
+          "sd": 6.259589947481224,
+          "n_quarters": 40
+        },
+        "JPN": {
+          "mean": 124.76391153504969,
+          "sd": 12.344083887751587,
+          "n_quarters": 40
+        },
+        "KOR": {
+          "mean": 115.46181734733622,
+          "sd": 7.496537791133456,
+          "n_quarters": 40
+        },
+        "USA": {
+          "mean": 94.90954198835989,
+          "sd": 6.9642542738713615,
+          "n_quarters": 40
+        }
+      },
+      "baseline_window_override": {}
+    },
+    "K4": {
+      "label": "Essentials CPI (food + energy)",
+      "source": "OECD",
+      "dataset": "PRICES_CPI",
+      "series_keys": {
+        "AUS": "MOCK",
+        "CAN": "MOCK",
+        "DEU": "MOCK",
+        "GBR": "MOCK",
+        "JPN": "MOCK",
+        "KOR": "MOCK",
+        "USA": "MOCK"
+      },
+      "native_frequency": "M",
+      "unit": "Cumulative price-level index, food + energy",
+      "sa_status": {
+        "AUS": "SA",
+        "CAN": "SA",
+        "DEU": "SA",
+        "GBR": "SA",
+        "JPN": "SA",
+        "KOR": "SA",
+        "USA": "SA"
+      },
+      "source_base_year": null,
+      "vintage_date": {
+        "AUS": "2026-11-21",
+        "CAN": "2026-11-21",
+        "DEU": "2026-11-21",
+        "GBR": "2026-11-21",
+        "JPN": "2026-11-21",
+        "KOR": "2026-11-21",
+        "USA": "2026-11-21"
+      },
+      "z_baseline_stats": {
+        "AUS": {
+          "mean": 98.42756579077823,
+          "sd": 5.371536329712985,
+          "n_quarters": 40
+        },
+        "CAN": {
+          "mean": 98.38284982142075,
+          "sd": 4.624937837779406,
+          "n_quarters": 40
+        },
+        "DEU": {
+          "mean": 96.57536164628429,
+          "sd": 4.005930566051616,
+          "n_quarters": 40
+        },
+        "GBR": {
+          "mean": 96.22295239334971,
+          "sd": 3.6675130383506866,
+          "n_quarters": 40
+        },
+        "JPN": {
+          "mean": 97.3318336901461,
+          "sd": 4.0735402678597445,
+          "n_quarters": 40
+        },
+        "KOR": {
+          "mean": 96.3696876146947,
+          "sd": 4.090157679207466,
+          "n_quarters": 40
+        },
+        "USA": {
+          "mean": 97.64281963098821,
+          "sd": 4.261787359870548,
+          "n_quarters": 40
+        }
+      },
+      "baseline_window_override": {}
+    }
+  },
+  "validation": {
+    "checks_run": 5,
+    "checks_failed": 0,
+    "warnings": [],
+    "revision_alerts": []
+  }
+}

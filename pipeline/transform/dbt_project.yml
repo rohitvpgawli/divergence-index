@@ -1,0 +1,22 @@
+name: divergence_index
+version: "0.1.0"
+config-version: 2
+profile: divergence_index
+
+model-paths: ["models"]
+macro-paths: ["macros"]
+seed-paths: ["seeds"]
+test-paths: ["tests"]
+target-path: target
+clean-targets: [target, dbt_packages]
+
+models:
+  divergence_index:
+    staging:
+      +schema: staging        # -> warehouse schema "staging"
+      +materialized: view
+    # silver/ and gold/ will be added once docs/DATA_CONTRACT.md is in place.
+
+seeds:
+  divergence_index:
+    +schema: reference

@@ -1,0 +1,23 @@
+[project]
+name = "divergence-index"
+version = "0.1.0"
+description = "Headline vs. Kitchen Table Divergence Index — OECD/BIS data pipeline"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "airbyte>=0.30",
+    "dbt-duckdb>=1.11.1",
+    "duckdb>=1.1",
+    "pandas>=2.2",
+    "pyarrow>=17",
+    "pyyaml>=6",
+]
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

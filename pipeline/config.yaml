@@ -1,0 +1,11 @@
+# Cohort and ingestion window (Methodology v0.1 §1).
+start_period: "2009"   # one year before the 2010-Q1 window so quarterly averaging is complete
+
+countries:
+  - {iso3: USA, iso2: US, name: United States}
+  - {iso3: CAN, iso2: CA, name: Canada}
+  - {iso3: GBR, iso2: GB, name: United Kingdom}
+  - {iso3: DEU, iso2: DE, name: Germany}
+  - {iso3: AUS, iso2: AU, name: Australia}
+  - {iso3: JPN, iso2: JP, name: Japan}
+  - {iso3: KOR, iso2: KR, name: South Korea}
