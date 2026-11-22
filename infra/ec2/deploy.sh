@@ -8,8 +8,14 @@ fi
 
 repo=/opt/divergence-index
 state=/var/lib/divergence
-if [[ ${1:-} != --install-units ]]; then
+mode=${1:-}
+if [[ -z $mode ]]; then
     git -C "$repo" pull --ff-only
+    # The pull may have rewritten this very script, and bash reads scripts as it runs.
+    # Start the updated copy so the rest of the steps are the new ones.
+    exec bash "$repo/infra/ec2/deploy.sh" --after-pull
+fi
+if [[ $mode != --install-units ]]; then
     UV_PYTHON_INSTALL_DIR="$repo/.python" /usr/local/bin/uv sync --directory "$repo" --frozen --no-dev
 fi
 
@@ -20,6 +26,6 @@ install -d -o divergence -g divergence -m 0750 "$state/dbt/logs" "$state/dbt/tar
 runuser -u divergence -- install -m 0600 "$repo/pipeline/orchestration/dagster.yaml" "$state/dagster/dagster.yaml"
 install -m 0644 "$repo"/infra/ec2/dagster-*.service /etc/systemd/system/
 systemctl daemon-reload
-if [[ ${1:-} != --install-units ]]; then
+if [[ $mode != --install-units ]]; then
     systemctl restart dagster-daemon.service dagster-webserver.service
 fi
