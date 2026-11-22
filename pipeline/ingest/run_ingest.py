@@ -20,6 +20,7 @@ import argparse
 import datetime as dt
 import json
 import os
+import tempfile
 from pathlib import Path
 
 os.environ.setdefault("DO_NOT_TRACK", "1")  # disable PyAirbyte telemetry
@@ -28,7 +29,12 @@ import airbyte as ab  # noqa: E402
 import pandas as pd  # noqa: E402
 import yaml  # noqa: E402
 
-from load_bronze import load as load_bronze_into_duckdb  # noqa: E402
+if __package__:
+    from .load_bronze import load as load_bronze_into_duckdb
+    from .s3_writer import BRONZE_ROOT, write_bronze
+else:
+    from load_bronze import load as load_bronze_into_duckdb
+    from s3_writer import BRONZE_ROOT, write_bronze
 
 ROOT = Path(__file__).resolve().parents[2]
 MANIFESTS = Path(__file__).parent / "airbyte" / "manifests"
@@ -66,37 +72,57 @@ def coverage(df: pd.DataFrame) -> dict:
     return out
 
 
-def run(selected: list[str]) -> dict:
+def read_streams(selected, cache_dir, fixture_vintage=None):
     cfg = load_config()
-    vintage = dt.date.today().isoformat()
-    cache = ab.new_local_cache(cache_name="bronze", cache_dir=BRONZE / "_airbyte_cache")
-    report: dict = {"vintage": vintage, "started_at": dt.datetime.now(dt.UTC).isoformat(), "streams": {}}
-
+    cache = None if fixture_vintage else ab.new_local_cache(cache_name="bronze", cache_dir=cache_dir)
     for name, src in sources(cfg).items():
         if selected and name not in selected:
             continue
         manifest = yaml.safe_load(src["manifest"].read_text())
+        stream_names = [entry["name"] for entry in manifest["streams"]]
+        if fixture_vintage:
+            for stream in stream_names:
+                path = BRONZE / stream / f"vintage={fixture_vintage}" / "data.parquet"
+                yield name, stream, pd.read_parquet(path)
+            continue
         source = ab.get_source(f"source-{name}-sdmx", config=src["config"], source_manifest=manifest)
         source.check()
         source.select_all_streams()
-        # replace: every run is a complete pull, so never merge into older cached rows
         result = source.read(cache=cache, force_full_refresh=True, write_strategy="replace")
-
-        for stream in result.streams:
+        if set(result.streams) != set(stream_names):
+            raise RuntimeError(f"Incomplete {name} read: {result.streams}")
+        for stream in stream_names:
             df = result[stream].to_pandas()
-            df = df.drop(columns=[c for c in df.columns if c.startswith("_airbyte")], errors="ignore")
-            if "raw" in df.columns:  # keep the full source row, serialised
+            df = df.drop(columns=[c for c in df.columns if c.startswith("_airbyte")])
+            if "raw" in df.columns:
                 df["raw"] = df["raw"].map(lambda v: v if isinstance(v, str) else json.dumps(v))
-            out = BRONZE / stream / f"vintage={vintage}" / "data.parquet"
-            out.parent.mkdir(parents=True, exist_ok=True)
-            df.to_parquet(out, index=False)
-            report["streams"][stream] = {
-                "source": name,
-                "rows": int(len(df)),
-                "path": str(out.relative_to(ROOT)),
-                "coverage": coverage(df),
-            }
-            print(f"  {stream:36s} {len(df):>6d} rows -> {out.relative_to(ROOT)}")
+            yield name, stream, df
+
+
+def run(selected: list[str], *, dest="local", s3_root=BRONZE_ROOT, fixture_vintage=None) -> dict:
+    started_at = dt.datetime.now(dt.UTC)
+    if fixture_vintage and (dest != "s3" or s3_root.startswith("s3://")):
+        raise ValueError("Fixture replay requires a local S3-layout mirror")
+    if dest == "s3":
+        with tempfile.TemporaryDirectory() as cache_dir:
+            streams = list(read_streams(selected, Path(cache_dir), fixture_vintage))
+        write_bronze(s3_root, streams, started_at)
+        print(f"  {len(streams)} streams written to {s3_root}")
+        return {stream: len(df) for _, stream, df in streams}
+
+    vintage = dt.date.today().isoformat()
+    report: dict = {"vintage": vintage, "started_at": started_at.isoformat(), "streams": {}}
+    for name, stream, df in read_streams(selected, BRONZE / "_airbyte_cache"):
+        out = BRONZE / stream / f"vintage={vintage}" / "data.parquet"
+        out.parent.mkdir(parents=True, exist_ok=True)
+        df.to_parquet(out, index=False)
+        report["streams"][stream] = {
+            "source": name,
+            "rows": int(len(df)),
+            "path": str(out.relative_to(ROOT)),
+            "coverage": coverage(df),
+        }
+        print(f"  {stream:36s} {len(df):>6d} rows -> {out.relative_to(ROOT)}")
 
     report["finished_at"] = dt.datetime.now(dt.UTC).isoformat()
     runs = BRONZE / "_runs"
@@ -117,4 +143,8 @@ def run(selected: list[str]) -> dict:
 if __name__ == "__main__":
     p = argparse.ArgumentParser()
     p.add_argument("--source", action="append", choices=["oecd", "bis"], default=[])
-    run(p.parse_args().source)
+    p.add_argument("--dest", choices=["local", "s3"], default="local")
+    p.add_argument("--s3-root", default=BRONZE_ROOT)
+    p.add_argument("--fixture-vintage", type=dt.date.fromisoformat)
+    args = p.parse_args()
+    run(args.source, dest=args.dest, s3_root=args.s3_root, fixture_vintage=args.fixture_vintage)

@@ -20,6 +20,7 @@ from __future__ import annotations
 
 import datetime as dt
 import json
+import os
 import shutil
 import subprocess
 import sys
@@ -51,9 +52,10 @@ def fail(msg: str) -> None:
 
 def dbt_validation() -> dict:
     """Summarise the last dbt run; refuse to publish after a failed build."""
-    if not RUN_RESULTS.exists():
+    run_results = Path(os.environ.get("DBT_RUN_RESULTS", RUN_RESULTS))
+    if not run_results.exists():
         fail("no dbt run_results.json found. Run `dbt build` first.")
-    results = json.loads(RUN_RESULTS.read_text())["results"]
+    results = json.loads(run_results.read_text())["results"]
     tests = [r for r in results if r["unique_id"].startswith(("test.", "unit_test."))]
     bad = [r for r in results if r["status"] in ("error", "fail", "runtime error")]
     if bad:
@@ -185,8 +187,10 @@ def check_q9(out: Path) -> None:
 
 def main() -> None:
     validation = dbt_validation()
+    warehouse = Path(os.environ.get("DUCKDB_PATH", WAREHOUSE))
+    gold = Path(os.environ.get("DIVERGENCE_GOLD_DIR", GOLD)).resolve()
     run_ts = dt.datetime.now(dt.UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
-    with duckdb.connect(str(WAREHOUSE), read_only=True) as con:
+    with duckdb.connect(str(warehouse), read_only=True) as con:
         panel = con.sql("select * from gold.gld_divergence_panel order by country_iso, quarter").df()
         dims = con.sql("select * from reference.dim_indicator order by ordinal").df()
         eligible = panel[panel["is_composite_eligible"]]
@@ -198,7 +202,7 @@ def main() -> None:
         contributions = build_contributions(panel, dims, common_q)
         metadata = build_metadata(con, panel, dims, validation, common_q, run_ts)
 
-    staging = GOLD.parent / f".gold_staging_{run_ts.replace(':', '')}"
+    staging = gold.parent / f".gold_staging_{run_ts.replace(':', '')}"
     staging.mkdir(parents=True)
     try:
         write_panel(panel, staging)
@@ -206,13 +210,13 @@ def main() -> None:
         (staging / "pipeline_metadata.json").write_text(json.dumps(metadata, indent=2))
         check_q8(staging)
         check_q9(staging)
-        GOLD.mkdir(parents=True, exist_ok=True)
+        gold.mkdir(parents=True, exist_ok=True)
         for f in staging.iterdir():          # every check passed: swap the files in
-            shutil.move(str(f), GOLD / f.name)
+            shutil.move(str(f), gold / f.name)
     finally:
         shutil.rmtree(staging, ignore_errors=True)
 
-    print(f"Gold published to {GOLD.relative_to(ROOT)}/  (schema {SCHEMA_VERSION})")
+    print(f"Gold published to {gold}/  (schema {SCHEMA_VERSION})")
     print(f"  divergence_panel: {len(panel)} rows x {panel.shape[1]} columns, "
           f"latest published {metadata['latest_published_quarter']}, latest complete common {common_q}")
     print(f"  checks: {validation['checks_run']} dbt tests passed, {len(validation['warnings'])} warning(s); Q8 + Q9 passed")

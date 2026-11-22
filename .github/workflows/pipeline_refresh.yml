@@ -1,8 +1,6 @@
 name: pipeline_refresh
 
 on:
-  schedule:
-    - cron: "0 6 15 * *"   # monthly, 15th, 06:00 UTC
   workflow_dispatch:
 
 permissions:
@@ -22,8 +20,7 @@ jobs:
         run: uv run python pipeline/ingest/run_ingest.py
       - name: dbt build (staging models + tests)
         # GitHub has no AWS credentials, so read the bronze PyAirbyte just pulled.
-        # On EC2 (Airbyte -> S3) drop the --vars to read S3 instead.
-        run: uv run dbt build --project-dir pipeline/transform --profiles-dir pipeline/transform --vars '{bronze_source: local}'
+        run: uv run dbt build --project-dir pipeline/transform --profiles-dir pipeline/transform --target offline --vars '{bronze_source: local}'
       - name: Publish Gold (refuses if dbt failed; checks Q8 + Q9)
         run: uv run python pipeline/publish/export_gold.py
       - name: Commit new bronze vintage + Gold

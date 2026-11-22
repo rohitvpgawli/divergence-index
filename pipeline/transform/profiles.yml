@@ -3,23 +3,25 @@
 #
 # Bronze is read straight from S3 (Airbyte output) by default. Credentials come
 # from the AWS CLI profile named below (~/.aws/credentials). No keys live in
-# this repo. Offline / dev: add  --vars '{bronze_source: local}'  to read the
-# local PyAirbyte Parquet in data/bronze/ instead.
+# this repo. For the local Parquet vintages use --target offline and
+# --vars '{bronze_source: local}'.
 divergence_index:
   target: local
   outputs:
     local:
-      type: duckdb
-      path: "{{ env_var('DUCKDB_PATH', 'data/warehouse.duckdb') }}"
-      threads: 4
-      extensions: [httpfs, aws]
-      settings:
-        # one DuckDB thread = fixed floating-point summation order, so identical
-        # inputs give byte-identical gold (no 1e-13 noise in git history)
+      <<: &warehouse
+        type: duckdb
+        path: "{{ env_var('DUCKDB_PATH', 'data/warehouse.duckdb') }}"
         threads: 1
-      secrets:
-        - type: s3
-          provider: credential_chain
-          chain: config
-          profile: "{{ env_var('DIVERGENCE_AWS_PROFILE', 'divergence-reader') }}"
-          region: ap-south-1
+        settings:
+          # One DuckDB thread fixes floating-point summation order.
+          threads: 1
+          # Keep aggregate input order consistent on first builds and rebuilds.
+          disabled_optimizers: "join_order,build_side_probe_side"
+      extensions: [httpfs, aws]
+      secrets: >-
+        {% set chain = env_var('DIVERGENCE_AWS_CHAIN', 'config') -%}
+        {{ [dict(type='s3', provider='credential_chain', chain=chain, region='ap-south-1',
+                 **(dict(profile=env_var('DIVERGENCE_AWS_PROFILE', 'divergence-reader')) if chain == 'config' else {}))] | as_native }}
+    offline:
+      <<: *warehouse

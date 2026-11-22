@@ -9,3 +9,6 @@ pipeline/transform/target/
 pipeline/transform/dbt_packages/
 pipeline/transform/logs/
 logs/
+data/_s3_mirror/
+.dagster/
+.tmp_dagster_home_*/
