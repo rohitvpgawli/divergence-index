@@ -96,10 +96,10 @@ Start the port forward from the workstation.
 ```bash
 aws ssm start-session --target "$INSTANCE_ID" \
   --document-name AWS-StartPortForwardingSession \
-  --parameters '{"portNumber":["3000"],"localPortNumber":["3000"]}'
+  --parameters '{"portNumber":["3010"],"localPortNumber":["3000"]}'
 ```
 
-Open `http://127.0.0.1:3000`, select **Jobs → monthly_refresh → Launchpad**, and launch with the default config. Confirm that ingest, build, export, and publish succeeded. Check the schedule and failure sensor under **Automation**. The schedule uses `0 6 15 * *` in UTC. The expected `z_extreme_values_warn` warning allows processing to continue. The dbt profile uses one thread for both dbt and DuckDB and disables two cost-based join reorderings to keep floating-point output stable across first builds and rebuilds.
+Open `http://127.0.0.1:3010 (Mango-hermes already uses 3000 for another service, so Dagster listens on 3010)`, select **Jobs → monthly_refresh → Launchpad**, and launch with the default config. Confirm that ingest, build, export, and publish succeeded. Check the schedule and failure sensor under **Automation**. The schedule uses `0 6 15 * *` in UTC. The expected `z_extreme_values_warn` warning allows processing to continue. The dbt profile uses one thread for both dbt and DuckDB and disables two cost-based join reorderings to keep floating-point output stable across first builds and rebuilds.
 
 The service account owns the checkout's scratch `data/` directory and trusts this checkout through its own Git configuration. Root owns the source and Git metadata, and the checkout has push disabled. The units send dbt logs, dbt targets, and Dagster state to `/var/lib/divergence`. Each scheduled run stores its dbt artifacts and checked gold files in its Dagster run directory. Wait for active runs to finish before deploying or reloading rotated secrets.
 

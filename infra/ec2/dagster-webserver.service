@@ -19,7 +19,7 @@ Environment=DO_NOT_TRACK=1
 Environment=AWS_REGION=ap-south-1
 EnvironmentFile=-/etc/divergence/env
 ExecStartPre=/opt/divergence-index/infra/ec2/fetch-secrets.sh
-ExecStart=/opt/divergence-index/.venv/bin/dagster-webserver -h 127.0.0.1 -p 3000 -w pipeline/orchestration/workspace.yaml
+ExecStart=/opt/divergence-index/.venv/bin/dagster-webserver -h 127.0.0.1 -p 3010 -w pipeline/orchestration/workspace.yaml
 Restart=on-failure
 RestartSec=15
 UMask=0077
