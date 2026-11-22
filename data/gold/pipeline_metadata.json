@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0.0-draft",
-  "run_id": "2026-11-22T18:46:55Z_2971c51",
-  "run_timestamp_utc": "2026-11-22T18:46:55Z",
-  "git_commit": "2971c51",
+  "run_id": "2026-11-22T18:56:53Z_8dbe673",
+  "run_timestamp_utc": "2026-11-22T18:56:53Z",
+  "git_commit": "8dbe673",
   "run_status": "success",
   "latest_published_quarter": "2026-Q3",
   "latest_complete_common_quarter": "2021-Q2",
@@ -28,91 +28,91 @@
       "source": "OECD",
       "dataset": "DF_QNA (B1GQ L/N) / DF_QNA_POP_EMPNC (POP)",
       "series_keys": {
-        "DEU": "DF_QNA Q.Y.DEU.S1.S1.B1GQ._Z._Z._Z.XDC.L.N.T0102 / DF_QNA_POP_EMPNC Q.Y.DEU.S1.S1.POP",
-        "AUS": "DF_QNA Q.Y.AUS.S1.S1.B1GQ._Z._Z._Z.XDC.L.N.T0102 / DF_QNA_POP_EMPNC Q.Y.AUS.S1.S1.POP",
         "KOR": "DF_QNA Q.Y.KOR.S1.S1.B1GQ._Z._Z._Z.XDC.L.N.T0102 / DF_QNA_POP_EMPNC Q.Y.KOR.S1.S1.POP",
-        "GBR": "DF_QNA Q.Y.GBR.S1.S1.B1GQ._Z._Z._Z.XDC.L.N.T0102 / DF_QNA_POP_EMPNC Q.Y.GBR.S1.S1.POP",
-        "USA": "DF_QNA Q.Y.USA.S1.S1.B1GQ._Z._Z._Z.XDC.L.N.T0102 / DF_QNA_POP_EMPNC Q.Y.USA.S1.S1.POP",
+        "DEU": "DF_QNA Q.Y.DEU.S1.S1.B1GQ._Z._Z._Z.XDC.L.N.T0102 / DF_QNA_POP_EMPNC Q.Y.DEU.S1.S1.POP",
         "CAN": "DF_QNA Q.Y.CAN.S1.S1.B1GQ._Z._Z._Z.XDC.L.N.T0102 / DF_QNA_POP_EMPNC Q.Y.CAN.S1.S1.POP",
-        "JPN": "DF_QNA Q.Y.JPN.S1.S1.B1GQ._Z._Z._Z.XDC.L.N.T0102 / DF_QNA_POP_EMPNC Q.Y.JPN.S1.S1.POP"
+        "AUS": "DF_QNA Q.Y.AUS.S1.S1.B1GQ._Z._Z._Z.XDC.L.N.T0102 / DF_QNA_POP_EMPNC Q.Y.AUS.S1.S1.POP",
+        "GBR": "DF_QNA Q.Y.GBR.S1.S1.B1GQ._Z._Z._Z.XDC.L.N.T0102 / DF_QNA_POP_EMPNC Q.Y.GBR.S1.S1.POP",
+        "JPN": "DF_QNA Q.Y.JPN.S1.S1.B1GQ._Z._Z._Z.XDC.L.N.T0102 / DF_QNA_POP_EMPNC Q.Y.JPN.S1.S1.POP",
+        "USA": "DF_QNA Q.Y.USA.S1.S1.B1GQ._Z._Z._Z.XDC.L.N.T0102 / DF_QNA_POP_EMPNC Q.Y.USA.S1.S1.POP"
       },
       "native_frequency": "Q",
       "unit": "Chain-linked volume, national currency per person per quarter, SA",
       "sa_status": {
-        "DEU": "SA",
-        "AUS": "SA",
         "KOR": "SA",
-        "GBR": "SA",
-        "USA": "SA",
+        "DEU": "SA",
         "CAN": "SA",
-        "JPN": "SA"
+        "AUS": "SA",
+        "GBR": "SA",
+        "JPN": "SA",
+        "USA": "SA"
       },
       "source_base_year": null,
       "vintage_date": {
-        "DEU": "2026-11-22",
-        "AUS": "2026-11-22",
         "KOR": "2026-11-22",
-        "GBR": "2026-11-22",
-        "USA": "2026-11-22",
+        "DEU": "2026-11-22",
         "CAN": "2026-11-22",
-        "JPN": "2026-11-22"
+        "AUS": "2026-11-22",
+        "GBR": "2026-11-22",
+        "JPN": "2026-11-22",
+        "USA": "2026-11-22"
       },
       "treatment": "detrended",
       "z_baseline_stats": {
-        "CAN": {
+        "DEU": {
           "mean": null,
-          "sd": 0.006781687518536053,
+          "sd": 0.008654136682119125,
           "n_quarters": 40,
-          "trend_alpha": 9.523856951940783,
-          "trend_beta": 0.0023776803726183234,
-          "scale": "ln(value) residual vs 2010-19 log-linear trend"
-        },
-        "AUS": {
-          "mean": null,
-          "sd": 0.004623683074861393,
-          "n_quarters": 40,
-          "trend_alpha": 9.99123327039526,
-          "trend_beta": 0.002534006455146886,
+          "trend_alpha": 9.17133054676636,
+          "trend_beta": 0.0036902724900260216,
           "scale": "ln(value) residual vs 2010-19 log-linear trend"
         },
         "JPN": {
           "mean": null,
           "sd": 0.009497173057749546,
           "n_quarters": 40,
-          "trend_alpha": 13.841511252652435,
-          "trend_beta": 0.0032737428704532217,
-          "scale": "ln(value) residual vs 2010-19 log-linear trend"
-        },
-        "KOR": {
-          "mean": null,
-          "sd": 0.004156096253196637,
-          "n_quarters": 40,
-          "trend_alpha": 15.879057007163864,
-          "trend_beta": 0.006464095933418384,
+          "trend_alpha": 13.841511252652433,
+          "trend_beta": 0.003273742870453235,
           "scale": "ln(value) residual vs 2010-19 log-linear trend"
         },
         "USA": {
           "mean": null,
-          "sd": 0.005599380322778215,
+          "sd": 0.005599380322778156,
           "n_quarters": 40,
-          "trend_alpha": 9.499211058078192,
-          "trend_beta": 0.004089506529799132,
+          "trend_alpha": 9.499211058078195,
+          "trend_beta": 0.004089506529799063,
           "scale": "ln(value) residual vs 2010-19 log-linear trend"
         },
-        "DEU": {
+        "KOR": {
           "mean": null,
-          "sd": 0.00865413668211928,
+          "sd": 0.00415609625319656,
           "n_quarters": 40,
-          "trend_alpha": 9.171330546766361,
-          "trend_beta": 0.003690272490025979,
+          "trend_alpha": 15.879057007163867,
+          "trend_beta": 0.006464095933418347,
+          "scale": "ln(value) residual vs 2010-19 log-linear trend"
+        },
+        "CAN": {
+          "mean": null,
+          "sd": 0.006781687518536054,
+          "n_quarters": 40,
+          "trend_alpha": 9.523856951940783,
+          "trend_beta": 0.002377680372618324,
+          "scale": "ln(value) residual vs 2010-19 log-linear trend"
+        },
+        "AUS": {
+          "mean": null,
+          "sd": 0.0046236830748615084,
+          "n_quarters": 40,
+          "trend_alpha": 9.991233270395258,
+          "trend_beta": 0.002534006455146941,
           "scale": "ln(value) residual vs 2010-19 log-linear trend"
         },
         "GBR": {
           "mean": null,
-          "sd": 0.007002486416715833,
+          "sd": 0.007002486416715784,
           "n_quarters": 40,
           "trend_alpha": 9.113380314411557,
-          "trend_beta": 0.0038521482813556247,
+          "trend_beta": 0.0038521482813555856,
           "scale": "ln(value) residual vs 2010-19 log-linear trend"
         }
       },
@@ -124,79 +124,39 @@
       "dataset": "DF_FINMARK (SHARE) / WS_LONG_CPI (628)",
       "series_keys": {
         "USA": "DF_FINMARK USA.M.SHARE.IX._Z._Z._Z._Z.N / WS_LONG_CPI M.US.628",
-        "CAN": "DF_FINMARK CAN.M.SHARE.IX._Z._Z._Z._Z.N / WS_LONG_CPI M.CA.628",
         "DEU": "DF_FINMARK DEU.M.SHARE.IX._Z._Z._Z._Z.N / WS_LONG_CPI M.DE.628",
         "GBR": "DF_FINMARK GBR.M.SHARE.IX._Z._Z._Z._Z.N / WS_LONG_CPI M.GB.628",
+        "JPN": "DF_FINMARK JPN.M.SHARE.IX._Z._Z._Z._Z.N / WS_LONG_CPI M.JP.628",
         "AUS": "DF_FINMARK AUS.M.SHARE.IX._Z._Z._Z._Z.N / WS_LONG_CPI M.AU.628",
         "KOR": "DF_FINMARK KOR.M.SHARE.IX._Z._Z._Z._Z.N / WS_LONG_CPI M.KR.628",
-        "JPN": "DF_FINMARK JPN.M.SHARE.IX._Z._Z._Z._Z.N / WS_LONG_CPI M.JP.628"
+        "CAN": "DF_FINMARK CAN.M.SHARE.IX._Z._Z._Z._Z.N / WS_LONG_CPI M.CA.628"
       },
       "native_frequency": "M",
       "unit": "Quarterly avg. share price index / headline CPI x 100",
       "sa_status": {
         "USA": "n/a",
-        "CAN": "n/a",
         "DEU": "n/a",
         "GBR": "n/a",
+        "JPN": "n/a",
         "AUS": "n/a",
         "KOR": "n/a",
-        "JPN": "n/a"
+        "CAN": "n/a"
       },
       "source_base_year": null,
       "vintage_date": {
         "USA": "2026-11-22",
-        "CAN": "2026-11-22",
         "DEU": "2026-11-22",
         "GBR": "2026-11-22",
+        "JPN": "2026-11-22",
         "AUS": "2026-11-22",
         "KOR": "2026-11-22",
-        "JPN": "2026-11-22"
+        "CAN": "2026-11-22"
       },
       "treatment": "detrended",
       "z_baseline_stats": {
-        "USA": {
-          "mean": null,
-          "sd": 0.057574922205203,
-          "n_quarters": 40,
-          "trend_alpha": 4.214676235173438,
-          "trend_beta": 0.012272021262713064,
-          "scale": "ln(value) residual vs 2010-19 log-linear trend"
-        },
-        "DEU": {
-          "mean": null,
-          "sd": 0.08815300314474865,
-          "n_quarters": 40,
-          "trend_alpha": 4.130380739033979,
-          "trend_beta": 0.013202409656406866,
-          "scale": "ln(value) residual vs 2010-19 log-linear trend"
-        },
-        "CAN": {
-          "mean": null,
-          "sd": 0.05366149728543171,
-          "n_quarters": 40,
-          "trend_alpha": 4.413767406080985,
-          "trend_beta": 0.004449007679887431,
-          "scale": "ln(value) residual vs 2010-19 log-linear trend"
-        },
-        "AUS": {
-          "mean": null,
-          "sd": 0.058130659548890753,
-          "n_quarters": 40,
-          "trend_alpha": 4.361738396980694,
-          "trend_beta": 0.005098182216210092,
-          "scale": "ln(value) residual vs 2010-19 log-linear trend"
-        },
-        "GBR": {
-          "mean": null,
-          "sd": 0.046436275981028834,
-          "n_quarters": 40,
-          "trend_alpha": 4.405546374702747,
-          "trend_beta": 0.0038981600851823754,
-          "scale": "ln(value) residual vs 2010-19 log-linear trend"
-        },
         "JPN": {
           "mean": null,
-          "sd": 0.12793923639079852,
+          "sd": 0.12793923639079854,
           "n_quarters": 40,
           "trend_alpha": 3.936845124807001,
           "trend_beta": 0.020838156284129404,
@@ -204,10 +164,50 @@
         },
         "KOR": {
           "mean": null,
-          "sd": 0.05986708024705339,
+          "sd": 0.059867080247053416,
           "n_quarters": 40,
-          "trend_alpha": 4.489387109769235,
-          "trend_beta": 0.001967149028264448,
+          "trend_alpha": 4.489387109769236,
+          "trend_beta": 0.0019671490282644364,
+          "scale": "ln(value) residual vs 2010-19 log-linear trend"
+        },
+        "GBR": {
+          "mean": null,
+          "sd": 0.04643627598102885,
+          "n_quarters": 40,
+          "trend_alpha": 4.405546374702748,
+          "trend_beta": 0.003898160085182398,
+          "scale": "ln(value) residual vs 2010-19 log-linear trend"
+        },
+        "DEU": {
+          "mean": null,
+          "sd": 0.0881530031447486,
+          "n_quarters": 40,
+          "trend_alpha": 4.130380739033979,
+          "trend_beta": 0.013202409656406825,
+          "scale": "ln(value) residual vs 2010-19 log-linear trend"
+        },
+        "CAN": {
+          "mean": null,
+          "sd": 0.05366149728543183,
+          "n_quarters": 40,
+          "trend_alpha": 4.413767406080984,
+          "trend_beta": 0.004449007679887416,
+          "scale": "ln(value) residual vs 2010-19 log-linear trend"
+        },
+        "AUS": {
+          "mean": null,
+          "sd": 0.05813065954889077,
+          "n_quarters": 40,
+          "trend_alpha": 4.3617383969806935,
+          "trend_beta": 0.005098182216210086,
+          "scale": "ln(value) residual vs 2010-19 log-linear trend"
+        },
+        "USA": {
+          "mean": null,
+          "sd": 0.05757492220520298,
+          "n_quarters": 40,
+          "trend_alpha": 4.214676235173439,
+          "trend_beta": 0.012272021262713062,
           "scale": "ln(value) residual vs 2010-19 log-linear trend"
         }
       },
@@ -219,69 +219,69 @@
       "dataset": "DF_IALFS_UNE_M",
       "series_keys": {
         "USA": "DF_IALFS_UNE_M USA.UNE_LF_M.PT_LF_SUB._Z.Y._T.Y_GE15._Z.M",
-        "KOR": "DF_IALFS_UNE_M KOR.UNE_LF_M.PT_LF_SUB._Z.Y._T.Y_GE15._Z.M",
-        "JPN": "DF_IALFS_UNE_M JPN.UNE_LF_M.PT_LF_SUB._Z.Y._T.Y_GE15._Z.M",
-        "AUS": "DF_IALFS_UNE_M AUS.UNE_LF_M.PT_LF_SUB._Z.Y._T.Y_GE15._Z.M",
         "DEU": "DF_IALFS_UNE_M DEU.UNE_LF_M.PT_LF_SUB._Z.Y._T.Y_GE15._Z.M",
+        "KOR": "DF_IALFS_UNE_M KOR.UNE_LF_M.PT_LF_SUB._Z.Y._T.Y_GE15._Z.M",
         "CAN": "DF_IALFS_UNE_M CAN.UNE_LF_M.PT_LF_SUB._Z.Y._T.Y_GE15._Z.M",
-        "GBR": "DF_IALFS_UNE_M GBR.UNE_LF_M.PT_LF_SUB._Z.Y._T.Y_GE15._Z.M"
+        "AUS": "DF_IALFS_UNE_M AUS.UNE_LF_M.PT_LF_SUB._Z.Y._T.Y_GE15._Z.M",
+        "GBR": "DF_IALFS_UNE_M GBR.UNE_LF_M.PT_LF_SUB._Z.Y._T.Y_GE15._Z.M",
+        "JPN": "DF_IALFS_UNE_M JPN.UNE_LF_M.PT_LF_SUB._Z.Y._T.Y_GE15._Z.M"
       },
       "native_frequency": "M",
       "unit": "% of labour force, SA, quarterly avg.",
       "sa_status": {
         "USA": "SA",
-        "KOR": "SA",
-        "JPN": "SA",
-        "AUS": "SA",
         "DEU": "SA",
+        "KOR": "SA",
         "CAN": "SA",
-        "GBR": "SA"
+        "AUS": "SA",
+        "GBR": "SA",
+        "JPN": "SA"
       },
       "source_base_year": null,
       "vintage_date": {
         "USA": "2026-11-22",
-        "KOR": "2026-11-22",
-        "JPN": "2026-11-22",
-        "AUS": "2026-11-22",
         "DEU": "2026-11-22",
+        "KOR": "2026-11-22",
         "CAN": "2026-11-22",
-        "GBR": "2026-11-22"
+        "AUS": "2026-11-22",
+        "GBR": "2026-11-22",
+        "JPN": "2026-11-22"
       },
       "treatment": "level",
       "z_baseline_stats": {
-        "USA": {
-          "mean": 6.220833333333333,
-          "sd": 2.0764132934563304,
-          "n_quarters": 40
-        },
         "KOR": {
-          "mean": 3.554166666666667,
+          "mean": 3.5541666666666663,
           "sd": 0.26351638125718707,
-          "n_quarters": 40
-        },
-        "DEU": {
-          "mean": 4.473333333333334,
-          "sd": 1.090236389328197,
-          "n_quarters": 40
-        },
-        "JPN": {
-          "mean": 3.5650000000000013,
-          "sd": 0.8867158266688133,
-          "n_quarters": 40
-        },
-        "GBR": {
-          "mean": 6.028333333333334,
-          "sd": 1.6732442854366598,
           "n_quarters": 40
         },
         "CAN": {
           "mean": 6.9475,
-          "sd": 0.756091595922413,
+          "sd": 0.7560915959224132,
           "n_quarters": 40
         },
         "AUS": {
-          "mean": 5.51282765,
-          "sd": 0.37376268298840276,
+          "mean": 5.512827649999999,
+          "sd": 0.37376268298840254,
+          "n_quarters": 40
+        },
+        "DEU": {
+          "mean": 4.473333333333332,
+          "sd": 1.0902363893281974,
+          "n_quarters": 40
+        },
+        "JPN": {
+          "mean": 3.564999999999999,
+          "sd": 0.8867158266688134,
+          "n_quarters": 40
+        },
+        "GBR": {
+          "mean": 6.028333333333335,
+          "sd": 1.6732442854366603,
+          "n_quarters": 40
+        },
+        "USA": {
+          "mean": 6.220833333333332,
+          "sd": 2.0764132934563304,
           "n_quarters": 40
         }
       },
@@ -293,42 +293,42 @@
       "dataset": "DF_QSA (B6G S1M) / DF_QNA (P31DC S14) / DF_QNA_POP_EMPNC",
       "series_keys": {
         "USA": "DF_QSA Q.Y.USA.S1M...B6G (C, N) / DF_QNA Q.Y.USA.S14.S1.P31DC (V / L) / DF_QNA_POP_EMPNC Q.Y.USA.S1.S1.POP",
-        "CAN": "DF_QSA Q.Y.CAN.S1M...B6G (C, N) / DF_QNA Q.Y.CAN.S14.S1.P31DC (V / L) / DF_QNA_POP_EMPNC Q.Y.CAN.S1.S1.POP",
         "DEU": "DF_QSA Q.Y.DEU.S1M...B6G (C, N) / DF_QNA Q.Y.DEU.S14.S1.P31DC (V / L) / DF_QNA_POP_EMPNC Q.Y.DEU.S1.S1.POP",
         "GBR": "DF_QSA Q.Y.GBR.S1M...B6G (C, N) / DF_QNA Q.Y.GBR.S14.S1.P31DC (V / L) / DF_QNA_POP_EMPNC Q.Y.GBR.S1.S1.POP",
+        "JPN": "DF_QSA Q.N.JPN.S1M...B6G (C, N) / DF_QNA Q.N.JPN.S14.S1.P31DC (V / L) / DF_QNA_POP_EMPNC Q.Y.JPN.S1.S1.POP",
         "AUS": "DF_QSA Q.Y.AUS.S1M...B6G (C, N) / DF_QNA Q.Y.AUS.S14.S1.P31DC (V / L) / DF_QNA_POP_EMPNC Q.Y.AUS.S1.S1.POP",
         "KOR": "DF_QSA Q.N.KOR.S1M...B6G (C, N) / DF_QNA Q.Y.KOR.S14.S1.P31DC (V / L) / DF_QNA_POP_EMPNC Q.Y.KOR.S1.S1.POP",
-        "JPN": "DF_QSA Q.N.JPN.S1M...B6G (C, N) / DF_QNA Q.N.JPN.S14.S1.P31DC (V / L) / DF_QNA_POP_EMPNC Q.Y.JPN.S1.S1.POP"
+        "CAN": "DF_QSA Q.Y.CAN.S1M...B6G (C, N) / DF_QNA Q.Y.CAN.S14.S1.P31DC (V / L) / DF_QNA_POP_EMPNC Q.Y.CAN.S1.S1.POP"
       },
       "native_frequency": "Q",
       "unit": "National currency per person per quarter, household consumption deflator",
       "sa_status": {
         "USA": "SA",
-        "CAN": "SA",
         "DEU": "SA",
         "GBR": "SA",
+        "JPN": "NSA",
         "AUS": "SA",
         "KOR": "NSA",
-        "JPN": "NSA"
+        "CAN": "SA"
       },
       "source_base_year": null,
       "vintage_date": {
         "USA": "2026-11-22",
-        "CAN": "2026-11-22",
         "DEU": "2026-11-22",
         "GBR": "2026-11-22",
+        "JPN": "2026-11-22",
         "AUS": "2026-11-22",
         "KOR": "2026-11-22",
-        "JPN": "2026-11-22"
+        "CAN": "2026-11-22"
       },
       "treatment": "detrended",
       "z_baseline_stats": {
-        "GBR": {
+        "JPN": {
           "mean": null,
-          "sd": 0.017234978039414588,
+          "sd": 0.05378055370079081,
           "n_quarters": 40,
-          "trend_alpha": 8.673899304195432,
-          "trend_beta": 0.0038117674460644443,
+          "trend_alpha": 13.387446175916619,
+          "trend_beta": 0.0012337695303396804,
           "scale": "ln(value) residual vs 2010-19 log-linear trend"
         },
         "DEU": {
@@ -355,12 +355,12 @@
           "trend_beta": 0.004379496236359798,
           "scale": "ln(value) residual vs 2010-19 log-linear trend"
         },
-        "JPN": {
+        "GBR": {
           "mean": null,
-          "sd": 0.05378055370079081,
+          "sd": 0.017234978039414588,
           "n_quarters": 40,
-          "trend_alpha": 13.387446175916619,
-          "trend_beta": 0.0012337695303396804,
+          "trend_alpha": 8.673899304195432,
+          "trend_beta": 0.0038117674460644443,
           "scale": "ln(value) residual vs 2010-19 log-linear trend"
         },
         "CAN": {
@@ -392,8 +392,8 @@
         "USA": "WS_DSR Q.US.H",
         "JPN": "WS_DSR Q.JP.H",
         "GBR": "WS_DSR Q.GB.H",
-        "CAN": "WS_DSR Q.CA.H",
-        "AUS": "WS_DSR Q.AU.H"
+        "AUS": "WS_DSR Q.AU.H",
+        "CAN": "WS_DSR Q.CA.H"
       },
       "native_frequency": "Q",
       "unit": "% of household disposable income",
@@ -403,8 +403,8 @@
         "USA": "NSA",
         "JPN": "NSA",
         "GBR": "NSA",
-        "CAN": "NSA",
-        "AUS": "NSA"
+        "AUS": "NSA",
+        "CAN": "NSA"
       },
       "source_base_year": null,
       "vintage_date": {
@@ -413,14 +413,19 @@
         "USA": "2026-11-22",
         "JPN": "2026-11-22",
         "GBR": "2026-11-22",
-        "CAN": "2026-11-22",
-        "AUS": "2026-11-22"
+        "AUS": "2026-11-22",
+        "CAN": "2026-11-22"
       },
       "treatment": "level",
       "z_baseline_stats": {
-        "DEU": {
-          "mean": 6.595000000000001,
-          "sd": 0.5560621621771518,
+        "CAN": {
+          "mean": 12.954999999999998,
+          "sd": 0.36441030692733106,
+          "n_quarters": 40
+        },
+        "AUS": {
+          "mean": 15.717499999999998,
+          "sd": 0.7207145670648565,
           "n_quarters": 40
         },
         "GBR": {
@@ -438,14 +443,9 @@
           "sd": 0.5045371069680531,
           "n_quarters": 40
         },
-        "CAN": {
-          "mean": 12.954999999999998,
-          "sd": 0.36441030692733106,
-          "n_quarters": 40
-        },
-        "AUS": {
-          "mean": 15.717499999999998,
-          "sd": 0.7207145670648565,
+        "DEU": {
+          "mean": 6.595000000000001,
+          "sd": 0.5560621621771518,
           "n_quarters": 40
         },
         "JPN": {
@@ -463,43 +463,43 @@
       "series_keys": {
         "AUS": "DF_HOUSE_PRICES AUS.Q.HPI_YDH.IX.S",
         "CAN": "DF_HOUSE_PRICES CAN.Q.HPI_YDH.IX.S",
-        "USA": "DF_HOUSE_PRICES USA.Q.HPI_YDH.IX.S",
-        "GBR": "DF_HOUSE_PRICES GBR.Q.HPI_YDH.IX.S",
-        "JPN": "DF_HOUSE_PRICES JPN.Q.HPI_YDH.IX.S",
         "DEU": "DF_HOUSE_PRICES DEU.Q.HPI_YDH.IX.S",
-        "KOR": "DF_HOUSE_PRICES KOR.Q.HPI_YDH.IX.S"
+        "GBR": "DF_HOUSE_PRICES GBR.Q.HPI_YDH.IX.S",
+        "KOR": "DF_HOUSE_PRICES KOR.Q.HPI_YDH.IX.S",
+        "USA": "DF_HOUSE_PRICES USA.Q.HPI_YDH.IX.S",
+        "JPN": "DF_HOUSE_PRICES JPN.Q.HPI_YDH.IX.S"
       },
       "native_frequency": "Q",
       "unit": "Index (OECD standardised ratio), SA",
       "sa_status": {
         "AUS": "SA",
         "CAN": "SA",
-        "USA": "SA",
-        "GBR": "SA",
-        "JPN": "SA",
         "DEU": "SA",
-        "KOR": "SA"
+        "GBR": "SA",
+        "KOR": "SA",
+        "USA": "SA",
+        "JPN": "SA"
       },
       "source_base_year": null,
       "vintage_date": {
         "AUS": "2026-11-22",
         "CAN": "2026-11-22",
-        "USA": "2026-11-22",
-        "GBR": "2026-11-22",
-        "JPN": "2026-11-22",
         "DEU": "2026-11-22",
-        "KOR": "2026-11-22"
+        "GBR": "2026-11-22",
+        "KOR": "2026-11-22",
+        "USA": "2026-11-22",
+        "JPN": "2026-11-22"
       },
       "treatment": "level",
       "z_baseline_stats": {
-        "KOR": {
-          "mean": 103.56010359126844,
-          "sd": 8.115777854848508,
-          "n_quarters": 40
-        },
         "USA": {
           "mean": 99.90052702857646,
           "sd": 5.705607869909816,
+          "n_quarters": 40
+        },
+        "JPN": {
+          "mean": 100.34763804713444,
+          "sd": 2.977677021030897,
           "n_quarters": 40
         },
         "GBR": {
@@ -522,9 +522,9 @@
           "sd": 6.7797974749317,
           "n_quarters": 40
         },
-        "JPN": {
-          "mean": 100.34763804713444,
-          "sd": 2.977677021030897,
+        "KOR": {
+          "mean": 103.56010359126844,
+          "sd": 8.115777854848508,
           "n_quarters": 40
         }
       },
@@ -538,10 +538,10 @@
         "CAN": "DF_PRICES_ALL CAN.M.N.CPI.IX.CP01+CP045_0722.N._Z (w_food=0.6143) / DF_QSA B6G per capita",
         "AUS": "DF_PRICES_ALL AUS.Q.N.CPI.IX.CP01+CP045_0722.N._Z (w_food=0.614) / DF_QSA B6G per capita",
         "JPN": "DF_PRICES_ALL JPN.M.N.CPI.IX.CP01+CP045_0722.N._Z (w_food=0.7096) / DF_QSA B6G per capita",
-        "KOR": "DF_PRICES_ALL KOR.M.N.CPI.IX.CP01+CP045_0722.N._Z (w_food=0.6473) / DF_QSA B6G per capita",
         "GBR": "DF_PRICES_ALL GBR.M.N.CPI.IX.CP01+CP045_0722.N._Z (w_food=0.6108) / DF_QSA B6G per capita",
         "DEU": "DF_PRICES_ALL DEU.M.N.CPI.IX.CP01+CP045_0722.N._Z (w_food=0.508) / DF_QSA B6G per capita",
-        "USA": "DF_PRICES_ALL USA.M.N.CPI.IX.CP01+CP045_0722.N._Z (w_food=0.5056) / DF_QSA B6G per capita"
+        "USA": "DF_PRICES_ALL USA.M.N.CPI.IX.CP01+CP045_0722.N._Z (w_food=0.5056) / DF_QSA B6G per capita",
+        "KOR": "DF_PRICES_ALL KOR.M.N.CPI.IX.CP01+CP045_0722.N._Z (w_food=0.6473) / DF_QSA B6G per capita"
       },
       "native_frequency": "M (AUS: Q)",
       "unit": "Food & energy CPI / nominal household income per capita, 2015 = 100 (see k4_definition)",
@@ -549,23 +549,43 @@
         "CAN": "NSA",
         "AUS": "NSA",
         "JPN": "NSA",
-        "KOR": "NSA",
         "GBR": "NSA",
         "DEU": "NSA",
-        "USA": "NSA"
+        "USA": "NSA",
+        "KOR": "NSA"
       },
       "source_base_year": 2015,
       "vintage_date": {
         "CAN": "2026-11-22",
         "AUS": "2026-11-22",
         "JPN": "2026-11-22",
-        "KOR": "2026-11-22",
         "GBR": "2026-11-22",
         "DEU": "2026-11-22",
-        "USA": "2026-11-22"
+        "USA": "2026-11-22",
+        "KOR": "2026-11-22"
       },
       "treatment": "level",
       "z_baseline_stats": {
+        "DEU": {
+          "mean": 100.83976178560349,
+          "sd": 6.37482136492934,
+          "n_quarters": 40
+        },
+        "KOR": {
+          "mean": 106.05024211578818,
+          "sd": 11.191657906438863,
+          "n_quarters": 40
+        },
+        "AUS": {
+          "mean": 103.13781325409795,
+          "sd": 3.4233290943320296,
+          "n_quarters": 40
+        },
+        "CAN": {
+          "mean": 102.01894721647405,
+          "sd": 3.8945043154006433,
+          "n_quarters": 40
+        },
         "USA": {
           "mean": 104.29935068375387,
           "sd": 11.39323634652858,
@@ -579,26 +599,6 @@
         "GBR": {
           "mean": 104.3090715016247,
           "sd": 7.122375764368566,
-          "n_quarters": 40
-        },
-        "AUS": {
-          "mean": 103.13781325409795,
-          "sd": 3.4233290943320296,
-          "n_quarters": 40
-        },
-        "CAN": {
-          "mean": 102.01894721647405,
-          "sd": 3.8945043154006433,
-          "n_quarters": 40
-        },
-        "DEU": {
-          "mean": 100.83976178560349,
-          "sd": 6.374821364929342,
-          "n_quarters": 40
-        },
-        "KOR": {
-          "mean": 106.05024211578818,
-          "sd": 11.191657906438863,
           "n_quarters": 40
         }
       },

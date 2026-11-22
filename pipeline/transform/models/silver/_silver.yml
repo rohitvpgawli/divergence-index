@@ -5,7 +5,8 @@ models:
     description: "Quarterly population, persons, SA (one series for H1, K1, K4)."
     data_tests:
       - unique_series_observation:
-          columns: [country_iso, quarter_start_date]
+          arguments:
+            columns: [country_iso, quarter_start_date]
     columns:
       - name: country_iso
         data_tests:
@@ -26,7 +27,8 @@ models:
     description: "Nominal household + NPISH gross disposable income per quarter, national currency."
     data_tests:
       - unique_series_observation:
-          columns: [country_iso, quarter_start_date]
+          arguments:
+            columns: [country_iso, quarter_start_date]
     columns:
       - name: country_iso
         data_tests:
@@ -47,7 +49,8 @@ models:
     description: "Household consumption deflator (current / chain-linked volume), ~1 in reference year."
     data_tests:
       - unique_series_observation:
-          columns: [country_iso, quarter_start_date]
+          arguments:
+            columns: [country_iso, quarter_start_date]
     columns:
       - name: country_iso
         data_tests:
@@ -68,7 +71,8 @@ models:
     description: "H1 real GDP per capita, national currency per person per quarter."
     data_tests:
       - unique_series_observation:
-          columns: [country_iso, quarter_start_date]
+          arguments:
+            columns: [country_iso, quarter_start_date]
     columns:
       - name: country_iso
         data_tests:
@@ -89,7 +93,8 @@ models:
     description: "H2 real equity index (share index / headline CPI x 100)."
     data_tests:
       - unique_series_observation:
-          columns: [country_iso, quarter_start_date]
+          arguments:
+            columns: [country_iso, quarter_start_date]
     columns:
       - name: country_iso
         data_tests:
@@ -110,7 +115,8 @@ models:
     description: "H3 unemployment rate, % of labour force."
     data_tests:
       - unique_series_observation:
-          columns: [country_iso, quarter_start_date]
+          arguments:
+            columns: [country_iso, quarter_start_date]
     columns:
       - name: country_iso
         data_tests:
@@ -131,7 +137,8 @@ models:
     description: "K1 real household disposable income per capita."
     data_tests:
       - unique_series_observation:
-          columns: [country_iso, quarter_start_date]
+          arguments:
+            columns: [country_iso, quarter_start_date]
     columns:
       - name: country_iso
         data_tests:
@@ -152,7 +159,8 @@ models:
     description: "K2 household debt service ratio, % of income."
     data_tests:
       - unique_series_observation:
-          columns: [country_iso, quarter_start_date]
+          arguments:
+            columns: [country_iso, quarter_start_date]
     columns:
       - name: country_iso
         data_tests:
@@ -173,7 +181,8 @@ models:
     description: "K3 house price-to-income index."
     data_tests:
       - unique_series_observation:
-          columns: [country_iso, quarter_start_date]
+          arguments:
+            columns: [country_iso, quarter_start_date]
     columns:
       - name: country_iso
         data_tests:
@@ -194,7 +203,8 @@ models:
     description: "K4 essentials burden index (2015 = 100)."
     data_tests:
       - unique_series_observation:
-          columns: [country_iso, quarter_start_date]
+          arguments:
+            columns: [country_iso, quarter_start_date]
     columns:
       - name: country_iso
         data_tests:
@@ -215,7 +225,8 @@ models:
     description: "Silver long fact: one native-unit value per country x quarter x indicator (contract *_raw)."
     data_tests:
       - unique_series_observation:
-          columns: [country_iso, quarter_start_date, indicator_id]
+          arguments:
+            columns: [country_iso, quarter_start_date, indicator_id]
     columns:
       - name: indicator_id
         data_tests:

@@ -5,7 +5,8 @@ models:
     description: "Latest vintage, typed. H1 — real GDP per capita (OECD QNA, USD PPP chain-linked volume, SA)."
     data_tests:
       - unique_series_observation:
-          columns: [country_iso3, freq, time_period, adjustment, sector, accounting_entry, transaction, price_base, expenditure, measure, unit_measure, transformation, ref_year_price, table_identifier]
+          arguments:
+            columns: [country_iso3, freq, time_period, adjustment, sector, accounting_entry, transaction, price_base, expenditure, measure, unit_measure, transformation, ref_year_price, table_identifier]
     columns:
       - name: country_iso3
         data_tests:
@@ -22,7 +23,8 @@ models:
     description: "Latest vintage, typed. H2 — national share price index, monthly, nominal (OECD FINMARK)."
     data_tests:
       - unique_series_observation:
-          columns: [country_iso3, freq, time_period, adjustment, sector, accounting_entry, transaction, price_base, expenditure, measure, unit_measure, transformation, ref_year_price, table_identifier]
+          arguments:
+            columns: [country_iso3, freq, time_period, adjustment, sector, accounting_entry, transaction, price_base, expenditure, measure, unit_measure, transformation, ref_year_price, table_identifier]
     columns:
       - name: country_iso3
         data_tests:
@@ -39,7 +41,8 @@ models:
     description: "Latest vintage, typed. H3 — harmonised unemployment rate, monthly, SA (OECD IALFS)."
     data_tests:
       - unique_series_observation:
-          columns: [country_iso3, freq, time_period, adjustment, sector, accounting_entry, transaction, price_base, expenditure, measure, unit_measure, transformation, ref_year_price, table_identifier]
+          arguments:
+            columns: [country_iso3, freq, time_period, adjustment, sector, accounting_entry, transaction, price_base, expenditure, measure, unit_measure, transformation, ref_year_price, table_identifier]
     columns:
       - name: country_iso3
         data_tests:
@@ -56,7 +59,8 @@ models:
     description: "Latest vintage, typed. K1 — real household gross disposable income per capita, index, SA (OECD Household Dashboard). KOR not published."
     data_tests:
       - unique_series_observation:
-          columns: [country_iso3, freq, time_period, adjustment, sector, accounting_entry, transaction, price_base, expenditure, measure, unit_measure, transformation, ref_year_price, table_identifier]
+          arguments:
+            columns: [country_iso3, freq, time_period, adjustment, sector, accounting_entry, transaction, price_base, expenditure, measure, unit_measure, transformation, ref_year_price, table_identifier]
     columns:
       - name: country_iso3
         data_tests:
@@ -73,7 +77,8 @@ models:
     description: "Latest vintage, typed. Nominal household + NPISH gross disposable income, national currency (OECD QSA). SA for USA/CAN/GBR/DEU/AUS; JPN/KOR NSA only."
     data_tests:
       - unique_series_observation:
-          columns: [country_iso3, freq, time_period, adjustment, sector, accounting_entry, transaction, price_base, expenditure, measure, unit_measure, transformation, ref_year_price, table_identifier]
+          arguments:
+            columns: [country_iso3, freq, time_period, adjustment, sector, accounting_entry, transaction, price_base, expenditure, measure, unit_measure, transformation, ref_year_price, table_identifier]
     columns:
       - name: country_iso3
         data_tests:
@@ -90,7 +95,8 @@ models:
     description: "Latest vintage, typed. K2 — household debt service ratio, % of income (BIS WS_DSR). NSA."
     data_tests:
       - unique_series_observation:
-          columns: [country_iso3, freq, time_period, adjustment, sector, accounting_entry, transaction, price_base, expenditure, measure, unit_measure, transformation, ref_year_price, table_identifier]
+          arguments:
+            columns: [country_iso3, freq, time_period, adjustment, sector, accounting_entry, transaction, price_base, expenditure, measure, unit_measure, transformation, ref_year_price, table_identifier]
     columns:
       - name: country_iso3
         data_tests:
@@ -107,7 +113,8 @@ models:
     description: "Latest vintage, typed. K3 — house price-to-income ratio index, SA (OECD Analytical House Prices)."
     data_tests:
       - unique_series_observation:
-          columns: [country_iso3, freq, time_period, adjustment, sector, accounting_entry, transaction, price_base, expenditure, measure, unit_measure, transformation, ref_year_price, table_identifier]
+          arguments:
+            columns: [country_iso3, freq, time_period, adjustment, sector, accounting_entry, transaction, price_base, expenditure, measure, unit_measure, transformation, ref_year_price, table_identifier]
     columns:
       - name: country_iso3
         data_tests:
@@ -124,7 +131,8 @@ models:
     description: "Latest vintage, typed. K4 inputs — CPI headline (_T), food (CP01), energy (CP045_0722); NSA (OECD PRICES)."
     data_tests:
       - unique_series_observation:
-          columns: [country_iso3, freq, time_period, adjustment, sector, accounting_entry, transaction, price_base, expenditure, measure, unit_measure, transformation, ref_year_price, table_identifier]
+          arguments:
+            columns: [country_iso3, freq, time_period, adjustment, sector, accounting_entry, transaction, price_base, expenditure, measure, unit_measure, transformation, ref_year_price, table_identifier]
     columns:
       - name: country_iso3
         data_tests:
@@ -141,7 +149,8 @@ models:
     description: "Latest vintage, typed. Population and employment (OECD QNA). Per-capita divisor."
     data_tests:
       - unique_series_observation:
-          columns: [country_iso3, freq, time_period, adjustment, sector, accounting_entry, transaction, price_base, expenditure, measure, unit_measure, transformation, ref_year_price, table_identifier]
+          arguments:
+            columns: [country_iso3, freq, time_period, adjustment, sector, accounting_entry, transaction, price_base, expenditure, measure, unit_measure, transformation, ref_year_price, table_identifier]
     columns:
       - name: country_iso3
         data_tests:
@@ -158,7 +167,8 @@ models:
     description: "Latest vintage, typed. Household final consumption, current prices and volume (OECD QNA). Deflator input."
     data_tests:
       - unique_series_observation:
-          columns: [country_iso3, freq, time_period, adjustment, sector, accounting_entry, transaction, price_base, expenditure, measure, unit_measure, transformation, ref_year_price, table_identifier]
+          arguments:
+            columns: [country_iso3, freq, time_period, adjustment, sector, accounting_entry, transaction, price_base, expenditure, measure, unit_measure, transformation, ref_year_price, table_identifier]
     columns:
       - name: country_iso3
         data_tests:
@@ -175,7 +185,8 @@ models:
     description: "Latest vintage, typed. GDP, national currency, current prices and chain-linked volume, SA (OECD QNA). H1 numerator (D4)."
     data_tests:
       - unique_series_observation:
-          columns: [country_iso3, freq, time_period, adjustment, sector, accounting_entry, transaction, price_base, expenditure, measure, unit_measure, transformation, ref_year_price, table_identifier]
+          arguments:
+            columns: [country_iso3, freq, time_period, adjustment, sector, accounting_entry, transaction, price_base, expenditure, measure, unit_measure, transformation, ref_year_price, table_identifier]
     columns:
       - name: country_iso3
         data_tests:
@@ -192,7 +203,8 @@ models:
     description: "Latest vintage, typed. National CPI basket weights, per mille, annual: food, energy, total (OECD). K4 food/energy weighting (D2)."
     data_tests:
       - unique_series_observation:
-          columns: [country_iso3, freq, time_period, adjustment, sector, accounting_entry, transaction, price_base, expenditure, measure, unit_measure, transformation, ref_year_price, table_identifier]
+          arguments:
+            columns: [country_iso3, freq, time_period, adjustment, sector, accounting_entry, transaction, price_base, expenditure, measure, unit_measure, transformation, ref_year_price, table_identifier]
     columns:
       - name: country_iso3
         data_tests:
@@ -209,7 +221,8 @@ models:
     description: "Latest vintage, typed. Headline CPI, monthly index (BIS WS_LONG_CPI). H2 deflator for all 7 (D7)."
     data_tests:
       - unique_series_observation:
-          columns: [country_iso3, freq, time_period, adjustment, sector, accounting_entry, transaction, price_base, expenditure, measure, unit_measure, transformation, ref_year_price, table_identifier]
+          arguments:
+            columns: [country_iso3, freq, time_period, adjustment, sector, accounting_entry, transaction, price_base, expenditure, measure, unit_measure, transformation, ref_year_price, table_identifier]
     columns:
       - name: country_iso3
         data_tests:
