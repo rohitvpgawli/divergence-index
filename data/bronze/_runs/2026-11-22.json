@@ -57,7 +57,742 @@
           }
         }
       }
+    },
+    "h1_real_gdp_per_capita": {
+      "source": "oecd",
+      "rows": 490,
+      "path": "data/bronze/h1_real_gdp_per_capita/vintage=2026-11-22/data.parquet",
+      "coverage": {
+        "AUS": {
+          "Q": {
+            "rows": 69,
+            "first": "2009-Q1",
+            "last": "2026-Q1"
+          }
+        },
+        "CAN": {
+          "Q": {
+            "rows": 70,
+            "first": "2009-Q1",
+            "last": "2026-Q2"
+          }
+        },
+        "DEU": {
+          "Q": {
+            "rows": 71,
+            "first": "2009-Q1",
+            "last": "2026-Q3"
+          }
+        },
+        "GBR": {
+          "Q": {
+            "rows": 70,
+            "first": "2009-Q1",
+            "last": "2026-Q2"
+          }
+        },
+        "JPN": {
+          "Q": {
+            "rows": 71,
+            "first": "2009-Q1",
+            "last": "2026-Q3"
+          }
+        },
+        "KOR": {
+          "Q": {
+            "rows": 68,
+            "first": "2009-Q1",
+            "last": "2025-Q4"
+          }
+        },
+        "USA": {
+          "Q": {
+            "rows": 71,
+            "first": "2009-Q1",
+            "last": "2026-Q3"
+          }
+        }
+      }
+    },
+    "h2_share_price_index": {
+      "source": "oecd",
+      "rows": 1498,
+      "path": "data/bronze/h2_share_price_index/vintage=2026-11-22/data.parquet",
+      "coverage": {
+        "AUS": {
+          "M": {
+            "rows": 214,
+            "first": "2009-01",
+            "last": "2026-10"
+          }
+        },
+        "CAN": {
+          "M": {
+            "rows": 214,
+            "first": "2009-01",
+            "last": "2026-10"
+          }
+        },
+        "DEU": {
+          "M": {
+            "rows": 214,
+            "first": "2009-01",
+            "last": "2026-10"
+          }
+        },
+        "GBR": {
+          "M": {
+            "rows": 214,
+            "first": "2009-01",
+            "last": "2026-10"
+          }
+        },
+        "JPN": {
+          "M": {
+            "rows": 214,
+            "first": "2009-01",
+            "last": "2026-10"
+          }
+        },
+        "KOR": {
+          "M": {
+            "rows": 214,
+            "first": "2009-01",
+            "last": "2026-10"
+          }
+        },
+        "USA": {
+          "M": {
+            "rows": 214,
+            "first": "2009-01",
+            "last": "2026-10"
+          }
+        }
+      }
+    },
+    "h3_unemployment_rate": {
+      "source": "oecd",
+      "rows": 1493,
+      "path": "data/bronze/h3_unemployment_rate/vintage=2026-11-22/data.parquet",
+      "coverage": {
+        "AUS": {
+          "M": {
+            "rows": 214,
+            "first": "2009-01",
+            "last": "2026-10"
+          }
+        },
+        "CAN": {
+          "M": {
+            "rows": 214,
+            "first": "2009-01",
+            "last": "2026-10"
+          }
+        },
+        "DEU": {
+          "M": {
+            "rows": 213,
+            "first": "2009-01",
+            "last": "2026-09"
+          }
+        },
+        "GBR": {
+          "M": {
+            "rows": 212,
+            "first": "2009-01",
+            "last": "2026-08"
+          }
+        },
+        "JPN": {
+          "M": {
+            "rows": 213,
+            "first": "2009-01",
+            "last": "2026-09"
+          }
+        },
+        "KOR": {
+          "M": {
+            "rows": 214,
+            "first": "2009-01",
+            "last": "2026-10"
+          }
+        },
+        "USA": {
+          "M": {
+            "rows": 213,
+            "first": "2009-01",
+            "last": "2026-10"
+          }
+        }
+      }
+    },
+    "k1_real_hh_disposable_income_pc": {
+      "source": "oecd",
+      "rows": 415,
+      "path": "data/bronze/k1_real_hh_disposable_income_pc/vintage=2026-11-22/data.parquet",
+      "coverage": {
+        "AUS": {
+          "Q": {
+            "rows": 70,
+            "first": "2009-Q1",
+            "last": "2026-Q2"
+          }
+        },
+        "CAN": {
+          "Q": {
+            "rows": 70,
+            "first": "2009-Q1",
+            "last": "2026-Q2"
+          }
+        },
+        "DEU": {
+          "Q": {
+            "rows": 70,
+            "first": "2009-Q1",
+            "last": "2026-Q2"
+          }
+        },
+        "GBR": {
+          "Q": {
+            "rows": 70,
+            "first": "2009-Q1",
+            "last": "2026-Q2"
+          }
+        },
+        "JPN": {
+          "Q": {
+            "rows": 65,
+            "first": "2009-Q1",
+            "last": "2025-Q1"
+          }
+        },
+        "USA": {
+          "Q": {
+            "rows": 70,
+            "first": "2009-Q1",
+            "last": "2026-Q2"
+          }
+        }
+      }
+    },
+    "k3_house_price_to_income": {
+      "source": "oecd",
+      "rows": 488,
+      "path": "data/bronze/k3_house_price_to_income/vintage=2026-11-22/data.parquet",
+      "coverage": {
+        "AUS": {
+          "Q": {
+            "rows": 69,
+            "first": "2009-Q1",
+            "last": "2026-Q1"
+          }
+        },
+        "CAN": {
+          "Q": {
+            "rows": 71,
+            "first": "2009-Q1",
+            "last": "2026-Q3"
+          }
+        },
+        "DEU": {
+          "Q": {
+            "rows": 70,
+            "first": "2009-Q1",
+            "last": "2026-Q2"
+          }
+        },
+        "GBR": {
+          "Q": {
+            "rows": 70,
+            "first": "2009-Q1",
+            "last": "2026-Q2"
+          }
+        },
+        "JPN": {
+          "Q": {
+            "rows": 68,
+            "first": "2009-Q1",
+            "last": "2025-Q4"
+          }
+        },
+        "KOR": {
+          "Q": {
+            "rows": 70,
+            "first": "2009-Q1",
+            "last": "2026-Q2"
+          }
+        },
+        "USA": {
+          "Q": {
+            "rows": 70,
+            "first": "2009-Q1",
+            "last": "2026-Q2"
+          }
+        }
+      }
+    },
+    "k4_cpi_components": {
+      "source": "oecd",
+      "rows": 5423,
+      "path": "data/bronze/k4_cpi_components/vintage=2026-11-22/data.parquet",
+      "coverage": {
+        "AUS": {
+          "A": {
+            "rows": 50,
+            "first": "2009",
+            "last": "2025"
+          },
+          "M": {
+            "rows": 60,
+            "first": "2024-04",
+            "last": "2026-09"
+          },
+          "Q": {
+            "rows": 208,
+            "first": "2009-Q1",
+            "last": "2026-Q3"
+          }
+        },
+        "CAN": {
+          "A": {
+            "rows": 49,
+            "first": "2009",
+            "last": "2025"
+          },
+          "M": {
+            "rows": 608,
+            "first": "2009-01",
+            "last": "2026-10"
+          },
+          "Q": {
+            "rows": 201,
+            "first": "2009-Q1",
+            "last": "2026-Q3"
+          }
+        },
+        "DEU": {
+          "A": {
+            "rows": 51,
+            "first": "2009",
+            "last": "2025"
+          },
+          "M": {
+            "rows": 642,
+            "first": "2009-01",
+            "last": "2026-10"
+          },
+          "Q": {
+            "rows": 213,
+            "first": "2009-Q1",
+            "last": "2026-Q3"
+          }
+        },
+        "GBR": {
+          "A": {
+            "rows": 51,
+            "first": "2009",
+            "last": "2025"
+          },
+          "M": {
+            "rows": 642,
+            "first": "2009-01",
+            "last": "2026-10"
+          },
+          "Q": {
+            "rows": 213,
+            "first": "2009-Q1",
+            "last": "2026-Q3"
+          }
+        },
+        "JPN": {
+          "A": {
+            "rows": 36,
+            "first": "2009",
+            "last": "2020"
+          },
+          "M": {
+            "rows": 450,
+            "first": "2009-01",
+            "last": "2021-06"
+          },
+          "Q": {
+            "rows": 150,
+            "first": "2009-Q1",
+            "last": "2021-Q2"
+          }
+        },
+        "KOR": {
+          "A": {
+            "rows": 51,
+            "first": "2009",
+            "last": "2025"
+          },
+          "M": {
+            "rows": 642,
+            "first": "2009-01",
+            "last": "2026-10"
+          },
+          "Q": {
+            "rows": 213,
+            "first": "2009-Q1",
+            "last": "2026-Q3"
+          }
+        },
+        "USA": {
+          "A": {
+            "rows": 48,
+            "first": "2009",
+            "last": "2024"
+          },
+          "M": {
+            "rows": 637,
+            "first": "2009-01",
+            "last": "2026-10"
+          },
+          "Q": {
+            "rows": 208,
+            "first": "2009-Q1",
+            "last": "2026-Q3"
+          }
+        }
+      }
+    },
+    "k1_hh_disposable_income_nominal": {
+      "source": "oecd",
+      "rows": 1652,
+      "path": "data/bronze/k1_hh_disposable_income_nominal/vintage=2026-11-22/data.parquet",
+      "coverage": {
+        "AUS": {
+          "Q": {
+            "rows": 280,
+            "first": "2009-Q1",
+            "last": "2026-Q2"
+          }
+        },
+        "CAN": {
+          "Q": {
+            "rows": 420,
+            "first": "2009-Q1",
+            "last": "2026-Q2"
+          }
+        },
+        "DEU": {
+          "Q": {
+            "rows": 280,
+            "first": "2009-Q1",
+            "last": "2026-Q2"
+          }
+        },
+        "GBR": {
+          "Q": {
+            "rows": 280,
+            "first": "2009-Q1",
+            "last": "2026-Q2"
+          }
+        },
+        "JPN": {
+          "Q": {
+            "rows": 130,
+            "first": "2009-Q1",
+            "last": "2025-Q1"
+          }
+        },
+        "KOR": {
+          "Q": {
+            "rows": 120,
+            "first": "2010-Q1",
+            "last": "2024-Q4"
+          }
+        },
+        "USA": {
+          "Q": {
+            "rows": 142,
+            "first": "2009-Q1",
+            "last": "2026-Q3"
+          }
+        }
+      }
+    },
+    "ref_population": {
+      "source": "oecd",
+      "rows": 2447,
+      "path": "data/bronze/ref_population/vintage=2026-11-22/data.parquet",
+      "coverage": {
+        "AUS": {
+          "Q": {
+            "rows": 351,
+            "first": "2009-Q1",
+            "last": "2026-Q3"
+          }
+        },
+        "CAN": {
+          "Q": {
+            "rows": 350,
+            "first": "2009-Q1",
+            "last": "2026-Q2"
+          }
+        },
+        "DEU": {
+          "Q": {
+            "rows": 568,
+            "first": "2009-Q1",
+            "last": "2026-Q3"
+          }
+        },
+        "GBR": {
+          "Q": {
+            "rows": 350,
+            "first": "2009-Q1",
+            "last": "2026-Q2"
+          }
+        },
+        "JPN": {
+          "Q": {
+            "rows": 142,
+            "first": "2009-Q1",
+            "last": "2026-Q3"
+          }
+        },
+        "KOR": {
+          "Q": {
+            "rows": 544,
+            "first": "2009-Q1",
+            "last": "2025-Q4"
+          }
+        },
+        "USA": {
+          "Q": {
+            "rows": 142,
+            "first": "2009-Q1",
+            "last": "2026-Q3"
+          }
+        }
+      }
+    },
+    "ref_hh_consumption": {
+      "source": "oecd",
+      "rows": 2185,
+      "path": "data/bronze/ref_hh_consumption/vintage=2026-11-22/data.parquet",
+      "coverage": {
+        "AUS": {
+          "Q": {
+            "rows": 280,
+            "first": "2009-Q1",
+            "last": "2026-Q2"
+          }
+        },
+        "CAN": {
+          "Q": {
+            "rows": 280,
+            "first": "2009-Q1",
+            "last": "2026-Q2"
+          }
+        },
+        "DEU": {
+          "Q": {
+            "rows": 280,
+            "first": "2009-Q1",
+            "last": "2026-Q2"
+          }
+        },
+        "GBR": {
+          "Q": {
+            "rows": 284,
+            "first": "2009-Q1",
+            "last": "2026-Q3"
+          }
+        },
+        "JPN": {
+          "Q": {
+            "rows": 355,
+            "first": "2009-Q1",
+            "last": "2026-Q3"
+          }
+        },
+        "KOR": {
+          "Q": {
+            "rows": 280,
+            "first": "2009-Q1",
+            "last": "2026-Q2"
+          }
+        },
+        "USA": {
+          "Q": {
+            "rows": 426,
+            "first": "2009-Q1",
+            "last": "2026-Q3"
+          }
+        }
+      }
+    },
+    "ref_gdp_volume": {
+      "source": "oecd",
+      "rows": 2193,
+      "path": "data/bronze/ref_gdp_volume/vintage=2026-11-22/data.parquet",
+      "coverage": {
+        "AUS": {
+          "Q": {
+            "rows": 280,
+            "first": "2009-Q1",
+            "last": "2026-Q2"
+          }
+        },
+        "CAN": {
+          "Q": {
+            "rows": 353,
+            "first": "2009-Q1",
+            "last": "2026-Q3"
+          }
+        },
+        "DEU": {
+          "Q": {
+            "rows": 284,
+            "first": "2009-Q1",
+            "last": "2026-Q3"
+          }
+        },
+        "GBR": {
+          "Q": {
+            "rows": 284,
+            "first": "2009-Q1",
+            "last": "2026-Q3"
+          }
+        },
+        "JPN": {
+          "Q": {
+            "rows": 355,
+            "first": "2009-Q1",
+            "last": "2026-Q3"
+          }
+        },
+        "KOR": {
+          "Q": {
+            "rows": 282,
+            "first": "2009-Q1",
+            "last": "2026-Q3"
+          }
+        },
+        "USA": {
+          "Q": {
+            "rows": 355,
+            "first": "2009-Q1",
+            "last": "2026-Q3"
+          }
+        }
+      }
+    },
+    "ref_cpi_weights": {
+      "source": "oecd",
+      "rows": 309,
+      "path": "data/bronze/ref_cpi_weights/vintage=2026-11-22/data.parquet",
+      "coverage": {
+        "AUS": {
+          "A": {
+            "rows": 48,
+            "first": "2009",
+            "last": "2024"
+          }
+        },
+        "CAN": {
+          "A": {
+            "rows": 33,
+            "first": "2014",
+            "last": "2024"
+          }
+        },
+        "DEU": {
+          "A": {
+            "rows": 51,
+            "first": "2009",
+            "last": "2025"
+          }
+        },
+        "GBR": {
+          "A": {
+            "rows": 51,
+            "first": "2009",
+            "last": "2025"
+          }
+        },
+        "JPN": {
+          "A": {
+            "rows": 33,
+            "first": "2009",
+            "last": "2019"
+          }
+        },
+        "KOR": {
+          "A": {
+            "rows": 51,
+            "first": "2009",
+            "last": "2025"
+          }
+        },
+        "USA": {
+          "A": {
+            "rows": 42,
+            "first": "2009",
+            "last": "2022"
+          }
+        }
+      }
+    },
+    "ref_headline_cpi_bis": {
+      "source": "bis",
+      "rows": 1488,
+      "path": "data/bronze/ref_headline_cpi_bis/vintage=2026-11-22/data.parquet",
+      "coverage": {
+        "AU": {
+          "M": {
+            "rows": 210,
+            "first": "2009-01",
+            "last": "2026-06"
+          }
+        },
+        "CA": {
+          "M": {
+            "rows": 213,
+            "first": "2009-01",
+            "last": "2026-09"
+          }
+        },
+        "DE": {
+          "M": {
+            "rows": 213,
+            "first": "2009-01",
+            "last": "2026-09"
+          }
+        },
+        "GB": {
+          "M": {
+            "rows": 213,
+            "first": "2009-01",
+            "last": "2026-09"
+          }
+        },
+        "JP": {
+          "M": {
+            "rows": 213,
+            "first": "2009-01",
+            "last": "2026-09"
+          }
+        },
+        "KR": {
+          "M": {
+            "rows": 213,
+            "first": "2009-01",
+            "last": "2026-09"
+          }
+        },
+        "US": {
+          "M": {
+            "rows": 213,
+            "first": "2009-01",
+            "last": "2026-09"
+          }
+        }
+      }
     }
   },
-  "finished_at": "2026-11-22T17:36:06.280936+00:00"
+  "finished_at": "2026-11-22T18:37:40.150363+00:00"
 }

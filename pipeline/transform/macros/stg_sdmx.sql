@@ -39,9 +39,12 @@ select
         when src.time_period like '____-__' then cast(src.time_period || '-01' as date)
         when src.time_period like '____'    then make_date(cast(src.time_period as int), 1, 1)
     end                                                      as period_start_date,
-    try_cast(nullif(src.obs_value, '') as double)            as obs_value,
+    -- 'NaN' / '' = not published (BIS uses NaN + OBS_STATUS M, e.g. US CPI Oct-2025) -> NULL
+    case when isnan(try_cast(nullif(src.obs_value, '') as double)) then null
+         else try_cast(nullif(src.obs_value, '') as double) end   as obs_value,
     nullif(src.obs_status, '')                               as obs_status,
     nullif(src.unit_measure, '')                             as unit_measure,
+    coalesce(try_cast(json_extract_string(src.raw, '$.UNIT_MULT') as int), 0) as unit_mult,  -- value x 10^unit_mult = units
     json_extract_string(src.raw, '$.ADJUSTMENT')             as adjustment,
     json_extract_string(src.raw, '$.SECTOR')                 as sector,
     json_extract_string(src.raw, '$.ACCOUNTING_ENTRY')       as accounting_entry,

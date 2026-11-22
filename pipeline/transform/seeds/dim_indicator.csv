@@ -1,0 +1,8 @@
+indicator_id,ordinal,basket,column_stem,label,polarity,sign_in_gap,treatment,unit,source,dataset
+H1,1,headline,h1_real_gdp_pc,Real GDP per capita,1,1,detrended,"Chain-linked volume, national currency per person per quarter, SA",OECD,DF_QNA (B1GQ L/N) / DF_QNA_POP_EMPNC (POP)
+H2,2,headline,h2_real_equity,Real equity index,1,1,detrended,"Quarterly avg. share price index / headline CPI x 100",OECD + BIS,DF_FINMARK (SHARE) / WS_LONG_CPI (628)
+H3,3,headline,h3_unemployment,Harmonised unemployment rate,-1,1,level,"% of labour force, SA, quarterly avg.",OECD,DF_IALFS_UNE_M
+K1,4,kitchen_table,k1_real_hhdi_pc,Real household disposable income per capita,1,-1,detrended,"National currency per person per quarter, household consumption deflator",OECD,DF_QSA (B6G S1M) / DF_QNA (P31DC S14) / DF_QNA_POP_EMPNC
+K2,5,kitchen_table,k2_hh_dsr,Household debt service ratio,-1,-1,level,% of household disposable income,BIS,WS_DSR
+K3,6,kitchen_table,k3_house_price_income,House price-to-income ratio,-1,-1,level,"Index (OECD standardised ratio), SA",OECD,DF_HOUSE_PRICES (HPI_YDH)
+K4,7,kitchen_table,k4_essentials_cpi,Essentials (food & energy) burden,-1,-1,level,"Food & energy CPI / nominal household income per capita, 2015 = 100 (see k4_definition)",OECD,DF_PRICES_ALL (CP01 + CP045_0722) / DF_PRICES_N_IT_W / DF_QSA

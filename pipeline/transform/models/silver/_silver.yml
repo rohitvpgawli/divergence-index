@@ -1,0 +1,240 @@
+version: 2
+
+models:
+  - name: slv_population
+    description: "Quarterly population, persons, SA (one series for H1, K1, K4)."
+    data_tests:
+      - unique_series_observation:
+          columns: [country_iso, quarter_start_date]
+    columns:
+      - name: country_iso
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [USA, CAN, GBR, DEU, AUS, JPN, KOR]
+      - name: quarter_start_date
+        data_tests: [not_null]
+      - name: population
+        data_tests:
+          - not_null
+          - value_between:
+              arguments:
+                min_value: 1000000.0
+                max_value: 500000000.0
+  - name: slv_hh_income_nominal
+    description: "Nominal household + NPISH gross disposable income per quarter, national currency."
+    data_tests:
+      - unique_series_observation:
+          columns: [country_iso, quarter_start_date]
+    columns:
+      - name: country_iso
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [USA, CAN, GBR, DEU, AUS, JPN, KOR]
+      - name: quarter_start_date
+        data_tests: [not_null]
+      - name: hh_income_nominal
+        data_tests:
+          - not_null
+          - value_between:
+              arguments:
+                min_value: 1000000000.0
+                max_value: 1e+16
+  - name: slv_hh_consumption_deflator
+    description: "Household consumption deflator (current / chain-linked volume), ~1 in reference year."
+    data_tests:
+      - unique_series_observation:
+          columns: [country_iso, quarter_start_date]
+    columns:
+      - name: country_iso
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [USA, CAN, GBR, DEU, AUS, JPN, KOR]
+      - name: quarter_start_date
+        data_tests: [not_null]
+      - name: deflator
+        data_tests:
+          - not_null
+          - value_between:
+              arguments:
+                min_value: 0.5
+                max_value: 2.0
+  - name: slv_h1_real_gdp_pc
+    description: "H1 real GDP per capita, national currency per person per quarter."
+    data_tests:
+      - unique_series_observation:
+          columns: [country_iso, quarter_start_date]
+    columns:
+      - name: country_iso
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [USA, CAN, GBR, DEU, AUS, JPN, KOR]
+      - name: quarter_start_date
+        data_tests: [not_null]
+      - name: value
+        data_tests:
+          - not_null
+          - value_between:
+              arguments:
+                min_value: 1
+                max_value: 100000000.0
+  - name: slv_h2_real_equity
+    description: "H2 real equity index (share index / headline CPI x 100)."
+    data_tests:
+      - unique_series_observation:
+          columns: [country_iso, quarter_start_date]
+    columns:
+      - name: country_iso
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [USA, CAN, GBR, DEU, AUS, JPN, KOR]
+      - name: quarter_start_date
+        data_tests: [not_null]
+      - name: value
+        data_tests:
+          - not_null
+          - value_between:
+              arguments:
+                min_value: 1
+                max_value: 100000.0
+  - name: slv_h3_unemployment
+    description: "H3 unemployment rate, % of labour force."
+    data_tests:
+      - unique_series_observation:
+          columns: [country_iso, quarter_start_date]
+    columns:
+      - name: country_iso
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [USA, CAN, GBR, DEU, AUS, JPN, KOR]
+      - name: quarter_start_date
+        data_tests: [not_null]
+      - name: value
+        data_tests:
+          - not_null
+          - value_between:
+              arguments:
+                min_value: 0
+                max_value: 30
+  - name: slv_k1_real_hhdi_pc
+    description: "K1 real household disposable income per capita."
+    data_tests:
+      - unique_series_observation:
+          columns: [country_iso, quarter_start_date]
+    columns:
+      - name: country_iso
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [USA, CAN, GBR, DEU, AUS, JPN, KOR]
+      - name: quarter_start_date
+        data_tests: [not_null]
+      - name: value
+        data_tests:
+          - not_null
+          - value_between:
+              arguments:
+                min_value: 1
+                max_value: 100000000.0
+  - name: slv_k2_hh_dsr
+    description: "K2 household debt service ratio, % of income."
+    data_tests:
+      - unique_series_observation:
+          columns: [country_iso, quarter_start_date]
+    columns:
+      - name: country_iso
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [USA, CAN, GBR, DEU, AUS, JPN, KOR]
+      - name: quarter_start_date
+        data_tests: [not_null]
+      - name: value
+        data_tests:
+          - not_null
+          - value_between:
+              arguments:
+                min_value: 0
+                max_value: 40
+  - name: slv_k3_house_price_income
+    description: "K3 house price-to-income index."
+    data_tests:
+      - unique_series_observation:
+          columns: [country_iso, quarter_start_date]
+    columns:
+      - name: country_iso
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [USA, CAN, GBR, DEU, AUS, JPN, KOR]
+      - name: quarter_start_date
+        data_tests: [not_null]
+      - name: value
+        data_tests:
+          - not_null
+          - value_between:
+              arguments:
+                min_value: 10
+                max_value: 500
+  - name: slv_k4_essentials
+    description: "K4 essentials burden index (2015 = 100)."
+    data_tests:
+      - unique_series_observation:
+          columns: [country_iso, quarter_start_date]
+    columns:
+      - name: country_iso
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [USA, CAN, GBR, DEU, AUS, JPN, KOR]
+      - name: quarter_start_date
+        data_tests: [not_null]
+      - name: value
+        data_tests:
+          - not_null
+          - value_between:
+              arguments:
+                min_value: 10
+                max_value: 500
+  - name: slv_indicator_quarterly
+    description: "Silver long fact: one native-unit value per country x quarter x indicator (contract *_raw)."
+    data_tests:
+      - unique_series_observation:
+          columns: [country_iso, quarter_start_date, indicator_id]
+    columns:
+      - name: indicator_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_indicator')
+                field: indicator_id
+      - name: country_iso
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('countries')
+                field: iso3
+      - name: quarter
+        data_tests: [not_null]
+      - name: sa_status
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [SA, NSA, n/a]

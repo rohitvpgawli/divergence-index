@@ -21,7 +21,7 @@ EXPECTED = {
         "ref_gdp_volume",
         "ref_cpi_weights",
     },
-    "source_bis_sdmx.yaml": {"k2_household_dsr"},
+    "source_bis_sdmx.yaml": {"k2_household_dsr", "ref_headline_cpi_bis"},
 }
 COUNTRIES = {
     "source_oecd_sdmx.yaml": {"countries": ["USA", "KOR"], "start_period": "2009"},

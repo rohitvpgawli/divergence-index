@@ -55,3 +55,7 @@ sources:
         description: "National CPI basket weights, per mille, annual: food, energy, total (OECD). K4 food/energy weighting (D2)."
         config:
           external_location: "{% if var('bronze_source') == 's3' %}read_parquet('{{ var('s3_bronze_root') }}/oecd/ref_cpi_weights/*.parquet', filename = true, union_by_name = true){% else %}read_parquet('data/bronze/ref_cpi_weights/vintage=*/data.parquet', hive_partitioning = true, union_by_name = true){% endif %}"
+      - name: ref_headline_cpi_bis
+        description: "Headline CPI, monthly index (BIS WS_LONG_CPI, 628 = index level). H2 deflator for all 7 (D7)."
+        config:
+          external_location: "{% if var('bronze_source') == 's3' %}read_parquet('{{ var('s3_bronze_root') }}/bis/ref_headline_cpi_bis/*.parquet', filename = true, union_by_name = true){% else %}read_parquet('data/bronze/ref_headline_cpi_bis/vintage=*/data.parquet', hive_partitioning = true, union_by_name = true){% endif %}"

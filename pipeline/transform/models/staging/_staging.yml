@@ -205,3 +205,20 @@ models:
         data_tests: [not_null]
       - name: time_period
         data_tests: [not_null]
+  - name: stg_ref_headline_cpi_bis
+    description: "Latest vintage, typed. Headline CPI, monthly index (BIS WS_LONG_CPI). H2 deflator for all 7 (D7)."
+    data_tests:
+      - unique_series_observation:
+          columns: [country_iso3, freq, time_period, adjustment, sector, accounting_entry, transaction, price_base, expenditure, measure, unit_measure, transformation, ref_year_price, table_identifier]
+    columns:
+      - name: country_iso3
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('countries')
+                field: iso3
+      - name: period_start_date
+        data_tests: [not_null]
+      - name: time_period
+        data_tests: [not_null]

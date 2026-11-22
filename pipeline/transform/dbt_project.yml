@@ -16,12 +16,26 @@ vars:
   bronze_source: s3
   s3_bronze_root: s3://divergence-index-data-lqpeej/airbyte
 
+  # --- Methodology v0.1 / DATA_CONTRACT (defaults per docs/DATA_CONTRACT_REVIEW.md)
+  panel_start: '2010-01-01'          # 2010-Q1
+  baseline_start: '2010-01-01'       # z-score reference window 2010-Q1 ...
+  baseline_end: '2019-10-01'         # ... 2019-Q4 (40 quarters)
+  idx100_anchor: '2019-10-01'        # Model 2: 2019-Q4 = 100
+  cpi_weight_years: ['2015', '2016', '2017', '2018', '2019']   # fixed food/energy weights (D2)
+  k4_definition: income_ratio        # income_ratio (methodology) | price_level (contract draft)
+  include_idx100_composites: false   # methodology §8 drops them -> 38-column panel
+
 models:
   divergence_index:
     staging:
       +schema: staging        # -> warehouse schema "staging"
       +materialized: view
-    # silver/ and gold/ will be added once docs/DATA_CONTRACT.md is in place.
+    silver:
+      +schema: silver
+      +materialized: table
+    gold:
+      +schema: gold
+      +materialized: table
 
 seeds:
   divergence_index:

@@ -79,7 +79,8 @@ def run(selected: list[str]) -> dict:
         source = ab.get_source(f"source-{name}-sdmx", config=src["config"], source_manifest=manifest)
         source.check()
         source.select_all_streams()
-        result = source.read(cache=cache, force_full_refresh=True)
+        # replace: every run is a complete pull, so never merge into older cached rows
+        result = source.read(cache=cache, force_full_refresh=True, write_strategy="replace")
 
         for stream in result.streams:
             df = result[stream].to_pandas()

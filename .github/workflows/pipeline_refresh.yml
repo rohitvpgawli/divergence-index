@@ -24,10 +24,12 @@ jobs:
         # GitHub has no AWS credentials, so read the bronze PyAirbyte just pulled.
         # On EC2 (Airbyte -> S3) drop the --vars to read S3 instead.
         run: uv run dbt build --project-dir pipeline/transform --profiles-dir pipeline/transform --vars '{bronze_source: local}'
-      - name: Commit new bronze vintage
+      - name: Publish Gold (refuses if dbt failed; checks Q8 + Q9)
+        run: uv run python pipeline/publish/export_gold.py
+      - name: Commit new bronze vintage + Gold
         run: |
           git config user.name "divergence-index-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data/bronze
-          git diff --cached --quiet || git commit -m "data: bronze vintage $(date -u +%F)"
+          git add data/bronze data/gold
+          git diff --cached --quiet || git commit -m "data: bronze vintage + gold $(date -u +%F)"
           git push

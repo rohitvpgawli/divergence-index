@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "divergence-index/component_contributions.schema.json",
+  "title": "component_contributions.json (DATA_CONTRACT §4)",
+  "type": "object",
+  "required": ["schema_version", "model", "latest_complete_common_quarter", "components", "countries"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "model": {"const": "z"},
+    "latest_complete_common_quarter": {"type": "string", "pattern": "^[0-9]{4}-Q[1-4]$"},
+    "components": {
+      "type": "array", "minItems": 7, "maxItems": 7,
+      "items": {
+        "type": "object",
+        "required": ["id", "label", "basket", "weight", "sign_in_gap"],
+        "properties": {
+          "id": {"enum": ["H1", "H2", "H3", "K1", "K2", "K3", "K4"]},
+          "label": {"type": "string"},
+          "basket": {"enum": ["headline", "kitchen_table"]},
+          "weight": {"type": "number", "exclusiveMinimum": 0},
+          "sign_in_gap": {"enum": [1, -1]}
+        }
+      }
+    },
+    "countries": {
+      "type": "object",
+      "propertyNames": {"enum": ["USA", "CAN", "GBR", "DEU", "AUS", "JPN", "KOR"]},
+      "additionalProperties": {
+        "type": "object",
+        "propertyNames": {"pattern": "^[0-9]{4}-Q[1-4]$"},
+        "additionalProperties": {
+          "type": "object",
+          "required": ["divergence_gap_z", "headline_z", "kitchen_table_z", "contributions", "shares", "shares_suppressed"],
+          "properties": {
+            "divergence_gap_z": {"type": "number"},
+            "headline_z": {"type": "number"},
+            "kitchen_table_z": {"type": "number"},
+            "contributions": {"$ref": "#/$defs/by_component"},
+            "shares": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/by_component"}]},
+            "shares_suppressed": {"type": "boolean"}
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "by_component": {
+      "type": "object",
+      "required": ["H1", "H2", "H3", "K1", "K2", "K3", "K4"],
+      "additionalProperties": false,
+      "properties": {"H1": {"type": "number"}, "H2": {"type": "number"}, "H3": {"type": "number"},
+                     "K1": {"type": "number"}, "K2": {"type": "number"}, "K3": {"type": "number"}, "K4": {"type": "number"}}
+    }
+  }
+}

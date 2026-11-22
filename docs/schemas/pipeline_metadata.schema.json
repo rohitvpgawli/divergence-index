@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "divergence-index/pipeline_metadata.schema.json",
+  "title": "pipeline_metadata.json (DATA_CONTRACT §6)",
+  "type": "object",
+  "required": ["schema_version", "run_id", "run_timestamp_utc", "git_commit", "run_status",
+               "latest_published_quarter", "latest_complete_common_quarter",
+               "latest_complete_quarter_by_country", "baseline", "indicators", "validation"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "run_id": {"type": "string"},
+    "run_timestamp_utc": {"type": "string"},
+    "git_commit": {"type": "string"},
+    "run_status": {"enum": ["success", "failed"]},
+    "latest_published_quarter": {"$ref": "#/$defs/quarter"},
+    "latest_complete_common_quarter": {"$ref": "#/$defs/quarter"},
+    "latest_complete_quarter_by_country": {"type": "object", "additionalProperties": {"oneOf": [{"$ref": "#/$defs/quarter"}, {"type": "null"}]}},
+    "baseline": {
+      "type": "object", "required": ["z_window", "idx100_anchor"],
+      "properties": {"z_window": {"type": "array", "items": {"$ref": "#/$defs/quarter"}, "minItems": 2, "maxItems": 2},
+                     "idx100_anchor": {"$ref": "#/$defs/quarter"}}
+    },
+    "indicators": {
+      "type": "object",
+      "propertyNames": {"enum": ["H1", "H2", "H3", "K1", "K2", "K3", "K4"]},
+      "minProperties": 7,
+      "additionalProperties": {
+        "type": "object",
+        "required": ["label", "source", "dataset", "series_keys", "native_frequency", "unit", "sa_status",
+                     "source_base_year", "vintage_date", "z_baseline_stats", "baseline_window_override"],
+        "properties": {
+          "series_keys": {"type": "object", "additionalProperties": {"type": "string"}},
+          "sa_status": {"type": "object", "additionalProperties": {"enum": ["SA", "NSA", "n/a"]}},
+          "vintage_date": {"type": "object", "additionalProperties": {"type": "string"}},
+          "z_baseline_stats": {
+            "type": "object",
+            "additionalProperties": {"type": "object", "required": ["mean", "sd", "n_quarters"],
+                                     "properties": {"n_quarters": {"type": "integer"}}}
+          },
+          "baseline_window_override": {"type": "object"}
+        }
+      }
+    },
+    "validation": {
+      "type": "object", "required": ["checks_run", "checks_failed", "warnings", "revision_alerts"],
+      "properties": {"checks_run": {"type": "integer"}, "checks_failed": {"type": "integer"},
+                     "warnings": {"type": "array"}, "revision_alerts": {"type": "array"}}
+    }
+  },
+  "$defs": {"quarter": {"type": "string", "pattern": "^[0-9]{4}-Q[1-4]$"}}
+}

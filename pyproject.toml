@@ -8,6 +8,7 @@ dependencies = [
     "airbyte>=0.30",
     "dbt-duckdb>=1.11.1",
     "duckdb>=1.1",
+    "jsonschema>=4.26.0",
     "pandas>=2.2",
     "pyarrow>=17",
     "pyyaml>=6",

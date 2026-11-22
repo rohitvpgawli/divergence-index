@@ -1,0 +1,79 @@
+version: 2
+
+# Unit tests: tiny hand-made inputs with known answers. They test the LOGIC of a
+# model independently of real data (run with `dbt test --select test_type:unit`).
+unit_tests:
+
+  - name: monthly_to_quarterly_needs_all_three_months
+    description: >-
+      2020-Q1 has 3 months -> averaged (4, 5, 6 -> 5). 2020-Q2 has only 2 months ->
+      dropped (contract §5: no 1- or 2-month averages).
+    model: slv_h3_unemployment
+    given:
+      - input: ref('stg_h3_unemployment_rate')
+        rows:
+          - {country_iso3: USA, freq: M, period_start_date: 2020-01-01, obs_value: 4.0, vintage: 2026-11-22}
+          - {country_iso3: USA, freq: M, period_start_date: 2020-02-01, obs_value: 5.0, vintage: 2026-11-22}
+          - {country_iso3: USA, freq: M, period_start_date: 2020-03-01, obs_value: 6.0, vintage: 2026-11-22}
+          - {country_iso3: USA, freq: M, period_start_date: 2020-04-01, obs_value: 7.0, vintage: 2026-11-22}
+          - {country_iso3: USA, freq: M, period_start_date: 2020-05-01, obs_value: 8.0, vintage: 2026-11-22}
+    expect:
+      rows:
+        - {country_iso: USA, quarter_start_date: 2020-01-01, indicator_id: H3, value: 5.0}
+
+  - name: baseline_stats_level_indicator
+    description: >-
+      Level indicator over a 3-quarter baseline (1, 2, 3) -> mean 2, sample SD 1
+      (ddof = 1). The quarter outside the window (99) must be ignored.
+    model: gld_baseline_stats
+    overrides:
+      vars: {baseline_start: '2010-01-01', baseline_end: '2010-07-01'}
+    given:
+      - input: ref('dim_indicator')
+        rows:
+          - {indicator_id: K2, treatment: level}
+      - input: ref('slv_indicator_quarterly')
+        rows:
+          - {country_iso: USA, indicator_id: K2, quarter_start_date: 2010-01-01, value: 1.0}
+          - {country_iso: USA, indicator_id: K2, quarter_start_date: 2010-04-01, value: 2.0}
+          - {country_iso: USA, indicator_id: K2, quarter_start_date: 2010-07-01, value: 3.0}
+          - {country_iso: USA, indicator_id: K2, quarter_start_date: 2010-10-01, value: 99.0}
+    expect:
+      rows:
+        - {country_iso: USA, indicator_id: K2, treatment: level, n_quarters: 3, mean: 2.0, sigma: 1.0}
+
+  - name: scores_z_idx100_contribution_for_inverted_indicator
+    description: >-
+      K2 (burden, polarity -1, kitchen-table weight 1/4, enters the gap negatively).
+      Baseline mean 10, SD 2. 2019-Q4 = 10 (the idx100 anchor), 2020-Q1 = 14.
+      2020-Q1: z = -1 x (14 - 10)/2 = -2 ; idx100 = 200 - 14/10 x 100 = 60 ;
+      contribution = -1/4 x -2 = +0.5 (a worse burden widens the gap).
+    model: gld_indicator_scores
+    given:
+      - input: ref('dim_indicator')
+        rows:
+          - {indicator_id: K1, ordinal: 4, basket: kitchen_table, polarity: 1, sign_in_gap: -1, treatment: detrended}
+          - {indicator_id: K2, ordinal: 5, basket: kitchen_table, polarity: -1, sign_in_gap: -1, treatment: level}
+          - {indicator_id: K3, ordinal: 6, basket: kitchen_table, polarity: -1, sign_in_gap: -1, treatment: level}
+          - {indicator_id: K4, ordinal: 7, basket: kitchen_table, polarity: -1, sign_in_gap: -1, treatment: level}
+      - input: ref('slv_quarter_spine')
+        rows:
+          - {country_iso: USA, quarter_start_date: 2019-10-01, quarter: 2019-Q4}
+          - {country_iso: USA, quarter_start_date: 2020-01-01, quarter: 2020-Q1}
+      - input: ref('slv_indicator_quarterly')
+        rows:
+          - {country_iso: USA, quarter_start_date: 2019-10-01, indicator_id: K2, value: 10.0}
+          - {country_iso: USA, quarter_start_date: 2020-01-01, indicator_id: K2, value: 14.0}
+      - input: ref('gld_baseline_stats')
+        rows:
+          - {country_iso: USA, indicator_id: K2, treatment: level, mean: 10.0, sigma: 2.0}
+    expect:
+      rows:
+        - {country_iso: USA, quarter: 2019-Q4, indicator_id: K1, raw: null, z: null, idx100: null, contrib_z: null}
+        - {country_iso: USA, quarter: 2020-Q1, indicator_id: K1, raw: null, z: null, idx100: null, contrib_z: null}
+        - {country_iso: USA, quarter: 2019-Q4, indicator_id: K2, raw: 10.0, z: 0.0, idx100: 100.0, contrib_z: 0.0}
+        - {country_iso: USA, quarter: 2020-Q1, indicator_id: K2, raw: 14.0, z: -2.0, idx100: 60.0, contrib_z: 0.5}
+        - {country_iso: USA, quarter: 2019-Q4, indicator_id: K3, raw: null, z: null, idx100: null, contrib_z: null}
+        - {country_iso: USA, quarter: 2020-Q1, indicator_id: K3, raw: null, z: null, idx100: null, contrib_z: null}
+        - {country_iso: USA, quarter: 2019-Q4, indicator_id: K4, raw: null, z: null, idx100: null, contrib_z: null}
+        - {country_iso: USA, quarter: 2020-Q1, indicator_id: K4, raw: null, z: null, idx100: null, contrib_z: null}
