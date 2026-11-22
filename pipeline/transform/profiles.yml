@@ -1,5 +1,10 @@
-# Local DuckDB warehouse. Paths are relative to the repo root: run dbt from there,
+# Run dbt from the repo root:
 #   uv run dbt build --project-dir pipeline/transform --profiles-dir pipeline/transform
+#
+# Bronze is read straight from S3 (Airbyte output) by default. Credentials come
+# from the AWS CLI profile named below (~/.aws/credentials). No keys live in
+# this repo. Offline / dev: add  --vars '{bronze_source: local}'  to read the
+# local PyAirbyte Parquet in data/bronze/ instead.
 divergence_index:
   target: local
   outputs:
@@ -7,3 +12,10 @@ divergence_index:
       type: duckdb
       path: "{{ env_var('DUCKDB_PATH', 'data/warehouse.duckdb') }}"
       threads: 4
+      extensions: [httpfs, aws]
+      secrets:
+        - type: s3
+          provider: credential_chain
+          chain: config
+          profile: "{{ env_var('DIVERGENCE_AWS_PROFILE', 'divergence-reader') }}"
+          region: ap-south-1

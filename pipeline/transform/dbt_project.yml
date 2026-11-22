@@ -10,6 +10,12 @@ test-paths: ["tests"]
 target-path: target
 clean-targets: [target, dbt_packages]
 
+vars:
+  # s3    = Airbyte output in S3 (default, what production uses)
+  # local = PyAirbyte Parquet under data/bronze/ (offline / dev)
+  bronze_source: s3
+  s3_bronze_root: s3://divergence-index-data-lqpeej/airbyte
+
 models:
   divergence_index:
     staging:

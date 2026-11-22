@@ -53,10 +53,21 @@ definitions:
       paginator:
         type: NoPagination
     transformations:
+      # 1) keep the complete source row, untouched, in `raw`
       - type: AddFields
         fields:
           - path: [raw]
             value: "{{ record }}"
+      # 2) drop the original top-level CSV columns. All SDMX column names are
+      #    UPPERCASE and all fields we add are lowercase, so this removes only
+      #    source columns (they survive inside `raw`). Without this, destinations
+      #    that keep undeclared columns (e.g. S3) get FREQ next to freq, etc.
+      - type: RemoveFields
+        field_pointers:
+          - ["[A-Z]*"]
+      # 3) derive the clean, standard fields from `raw`
+      - type: AddFields
+        fields:
           - path: [source]
             value: BIS
           - path: [indicator_id]
@@ -64,22 +75,22 @@ definitions:
           - path: [dataflow]
             value: "{{ parameters['dataflow'] }}"
           - path: [ref_area]
-            value: "{{ record[parameters['area_column']] }}"
+            value: "{{ record['raw'][parameters['area_column']] }}"
             value_type: string
           - path: [freq]
-            value: "{{ record['FREQ'] }}"
+            value: "{{ record['raw']['FREQ'] }}"
             value_type: string
           - path: [time_period]
-            value: "{{ record['TIME_PERIOD'] }}"
+            value: "{{ record['raw']['TIME_PERIOD'] }}"
             value_type: string
           - path: [obs_value]
-            value: "{{ record['OBS_VALUE'] }}"
+            value: "{{ record['raw']['OBS_VALUE'] }}"
             value_type: string
           - path: [obs_status]
-            value: "{{ record.get('OBS_STATUS', '') }}"
+            value: "{{ record['raw'].get('OBS_STATUS', '') }}"
             value_type: string
           - path: [unit_measure]
-            value: "{{ record.get('UNIT_MEASURE', '') }}"
+            value: "{{ record['raw'].get('UNIT_MEASURE', '') }}"
             value_type: string
           - path: [series_variant]
             value: "{{ '' }}"  # empty, but non-empty template so the Builder UI accepts it

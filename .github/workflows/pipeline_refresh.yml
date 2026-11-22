@@ -21,7 +21,9 @@ jobs:
       - name: Bronze ingestion (Airbyte connectors via PyAirbyte)
         run: uv run python pipeline/ingest/run_ingest.py
       - name: dbt build (staging models + tests)
-        run: uv run dbt build --project-dir pipeline/transform --profiles-dir pipeline/transform
+        # GitHub has no AWS credentials, so read the bronze PyAirbyte just pulled.
+        # On EC2 (Airbyte -> S3) drop the --vars to read S3 instead.
+        run: uv run dbt build --project-dir pipeline/transform --profiles-dir pipeline/transform --vars '{bronze_source: local}'
       - name: Commit new bronze vintage
         run: |
           git config user.name "divergence-index-bot"

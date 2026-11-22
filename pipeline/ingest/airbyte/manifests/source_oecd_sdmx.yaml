@@ -65,10 +65,21 @@ definitions:
       paginator:
         type: NoPagination
     transformations:
+      # 1) keep the complete source row, untouched, in `raw`
       - type: AddFields
         fields:
           - path: [raw]
             value: "{{ record }}"
+      # 2) drop the original top-level CSV columns. All SDMX column names are
+      #    UPPERCASE and all fields we add are lowercase, so this removes only
+      #    source columns (they survive inside `raw`). Without this, destinations
+      #    that keep undeclared columns (e.g. S3) get FREQ next to freq, etc.
+      - type: RemoveFields
+        field_pointers:
+          - ["[A-Z]*"]
+      # 3) derive the clean, standard fields from `raw`
+      - type: AddFields
+        fields:
           - path: [source]
             value: OECD
           - path: [indicator_id]
@@ -80,28 +91,28 @@ definitions:
             # dimensions are the columns between DATAFLOW and TIME_PERIOD, e.g.
             # "DEU.M.N.CPI.IX.CP01.N._Z" (Germany, monthly, food CPI).
             value: >-
-              {% set ns = namespace(dims=[], done=false) %}{% for col, val in record.items() %}{% if col == 'TIME_PERIOD' %}{% set ns.done = true %}{% elif not ns.done and col != 'DATAFLOW' %}{% set ns.dims = ns.dims + [val] %}{% endif %}{% endfor %}{{ ns.dims | join('.') }}
+              {% set ns = namespace(dims=[], done=false) %}{% for col, val in record['raw'].items() %}{% if col == 'TIME_PERIOD' %}{% set ns.done = true %}{% elif not ns.done and col != 'DATAFLOW' %}{% set ns.dims = ns.dims + [val] %}{% endif %}{% endfor %}{{ ns.dims | join('.') }}
             value_type: string
           - path: [ref_area]
-            value: "{{ record['REF_AREA'] }}"
+            value: "{{ record['raw']['REF_AREA'] }}"
             value_type: string
           - path: [freq]
-            value: "{{ record['FREQ'] }}"
+            value: "{{ record['raw']['FREQ'] }}"
             value_type: string
           - path: [time_period]
-            value: "{{ record['TIME_PERIOD'] }}"
+            value: "{{ record['raw']['TIME_PERIOD'] }}"
             value_type: string
           - path: [obs_value]
-            value: "{{ record['OBS_VALUE'] }}"
+            value: "{{ record['raw']['OBS_VALUE'] }}"
             value_type: string
           - path: [obs_status]
-            value: "{{ record.get('OBS_STATUS', '') }}"
+            value: "{{ record['raw'].get('OBS_STATUS', '') }}"
             value_type: string
           - path: [unit_measure]
-            value: "{{ record.get('UNIT_MEASURE', '') }}"
+            value: "{{ record['raw'].get('UNIT_MEASURE', '') }}"
             value_type: string
           - path: [series_variant]
-            value: "{{ record.get(parameters['variant_column'], '') if parameters.get('variant_column') else '' }}"
+            value: "{{ record['raw'].get(parameters['variant_column'], '') if parameters.get('variant_column') else '' }}"
             value_type: string
 
 streams:
