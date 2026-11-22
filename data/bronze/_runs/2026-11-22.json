@@ -1,0 +1,63 @@
+{
+  "vintage": "2026-11-22",
+  "started_at": "2026-11-22T16:28:26.686261+00:00",
+  "streams": {
+    "k2_household_dsr": {
+      "source": "bis",
+      "rows": 483,
+      "path": "data/bronze/k2_household_dsr/vintage=2026-11-22/data.parquet",
+      "coverage": {
+        "AU": {
+          "Q": {
+            "rows": 69,
+            "first": "2009-Q1",
+            "last": "2026-Q1"
+          }
+        },
+        "CA": {
+          "Q": {
+            "rows": 69,
+            "first": "2009-Q1",
+            "last": "2026-Q1"
+          }
+        },
+        "DE": {
+          "Q": {
+            "rows": 69,
+            "first": "2009-Q1",
+            "last": "2026-Q1"
+          }
+        },
+        "GB": {
+          "Q": {
+            "rows": 69,
+            "first": "2009-Q1",
+            "last": "2026-Q1"
+          }
+        },
+        "JP": {
+          "Q": {
+            "rows": 69,
+            "first": "2009-Q1",
+            "last": "2026-Q1"
+          }
+        },
+        "KR": {
+          "Q": {
+            "rows": 69,
+            "first": "2009-Q1",
+            "last": "2026-Q1"
+          }
+        },
+        "US": {
+          "Q": {
+            "rows": 69,
+            "first": "2009-Q1",
+            "last": "2026-Q1"
+          }
+        }
+      }
+    }
+  },
+  "finished_at": "2026-11-22T16:28:28.444817+00:00"
+}

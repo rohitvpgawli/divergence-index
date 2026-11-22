@@ -23,7 +23,9 @@ check:
 definitions:
   oecd_stream:
     type: DeclarativeStream
-    primary_key: []
+    # One OECD stream can hold several series per country (e.g. food / energy /
+    # headline CPI), so the unique key is the SDMX series key + period.
+    primary_key: [series_key, time_period]
     schema_loader:
       type: InlineSchemaLoader
       schema:
@@ -73,20 +75,34 @@ definitions:
             value: "{{ parameters['indicator_id'] }}"
           - path: [dataflow]
             value: "{{ parameters['dataflow'] }}"
+          - path: [series_key]
+            # SDMX series key = every dimension value, in order. In OECD's CSV the
+            # dimensions are the columns between DATAFLOW and TIME_PERIOD, e.g.
+            # "DEU.M.N.CPI.IX.CP01.N._Z" (Germany, monthly, food CPI).
+            value: >-
+              {% set ns = namespace(dims=[], done=false) %}{% for col, val in record.items() %}{% if col == 'TIME_PERIOD' %}{% set ns.done = true %}{% elif not ns.done and col != 'DATAFLOW' %}{% set ns.dims = ns.dims + [val] %}{% endif %}{% endfor %}{{ ns.dims | join('.') }}
+            value_type: string
           - path: [ref_area]
             value: "{{ record['REF_AREA'] }}"
+            value_type: string
           - path: [freq]
             value: "{{ record['FREQ'] }}"
+            value_type: string
           - path: [time_period]
             value: "{{ record['TIME_PERIOD'] }}"
+            value_type: string
           - path: [obs_value]
             value: "{{ record['OBS_VALUE'] }}"
+            value_type: string
           - path: [obs_status]
             value: "{{ record.get('OBS_STATUS', '') }}"
+            value_type: string
           - path: [unit_measure]
             value: "{{ record.get('UNIT_MEASURE', '') }}"
+            value_type: string
           - path: [series_variant]
             value: "{{ record.get(parameters['variant_column'], '') if parameters.get('variant_column') else '' }}"
+            value_type: string
 
 streams:
   - $ref: "#/definitions/oecd_stream"
@@ -204,6 +220,7 @@ schemas:
       source: {type: string}
       indicator_id: {type: string}
       dataflow: {type: string}
+      series_key: {type: string}
       ref_area: {type: string}
       freq: {type: string}
       time_period: {type: string}
@@ -224,7 +241,10 @@ spec:
       countries:
         type: array
         title: Countries (ISO-3)
-        items: {type: string}
+        description: "ISO 3166-1 alpha-3 codes, e.g. USA (OECD uses 3-letter codes)."
+        items:
+          type: string
+          pattern: "^[A-Z]{3}$"
         default: [USA, CAN, GBR, DEU, AUS, JPN, KOR]
         order: 0
       start_period:

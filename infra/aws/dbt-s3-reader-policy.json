@@ -1,0 +1,37 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ListOnlyTheAirbyteFolder",
+      "Effect": "Allow",
+      "Action": [
+        "s3:ListBucket"
+      ],
+      "Resource": "arn:aws:s3:::divergence-index-data-lqpeej",
+      "Condition": {
+        "StringLike": {
+          "s3:prefix": [
+            "airbyte/*",
+            "airbyte"
+          ]
+        }
+      }
+    },
+    {
+      "Sid": "FindBucketRegion",
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetBucketLocation"
+      ],
+      "Resource": "arn:aws:s3:::divergence-index-data-lqpeej"
+    },
+    {
+      "Sid": "ReadAirbyteFilesOnly",
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject"
+      ],
+      "Resource": "arn:aws:s3:::divergence-index-data-lqpeej/airbyte/*"
+    }
+  ]
+}

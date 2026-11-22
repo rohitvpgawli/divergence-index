@@ -14,7 +14,7 @@ check:
 definitions:
   bis_stream:
     type: DeclarativeStream
-    primary_key: []
+    primary_key: [ref_area, time_period]  # BIS returns one DSR series per country
     schema_loader:
       type: InlineSchemaLoader
       schema:
@@ -65,18 +65,25 @@ definitions:
             value: "{{ parameters['dataflow'] }}"
           - path: [ref_area]
             value: "{{ record[parameters['area_column']] }}"
+            value_type: string
           - path: [freq]
             value: "{{ record['FREQ'] }}"
+            value_type: string
           - path: [time_period]
             value: "{{ record['TIME_PERIOD'] }}"
+            value_type: string
           - path: [obs_value]
             value: "{{ record['OBS_VALUE'] }}"
+            value_type: string
           - path: [obs_status]
             value: "{{ record.get('OBS_STATUS', '') }}"
+            value_type: string
           - path: [unit_measure]
             value: "{{ record.get('UNIT_MEASURE', '') }}"
+            value_type: string
           - path: [series_variant]
-            value: ""
+            value: "{{ '' }}"  # empty, but non-empty template so the Builder UI accepts it
+            value_type: string
 
 streams:
   - $ref: "#/definitions/bis_stream"
@@ -117,7 +124,10 @@ spec:
       countries:
         type: array
         title: Countries (ISO-2, BIS convention)
-        items: {type: string}
+        description: "ISO 3166-1 alpha-2 codes, e.g. US (BIS uses 2-letter codes)."
+        items:
+          type: string
+          pattern: "^[A-Z]{2}$"
         default: [US, CA, GB, DE, AU, JP, KR]
         order: 0
       start_period:
