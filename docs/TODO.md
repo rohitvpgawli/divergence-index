@@ -16,7 +16,7 @@ Open items that sit outside the current build. Newest first within each section.
 
 ## Platform
 
-- [ ] Move to EC2 (ap-south-1): Airbyte connections on a monthly cron (`0 6 15 * *`), dbt reading S3, gold copied to `s3://…/gold/` with a gold-writer IAM user.
+- [x] Implement the EC2 Dagster job, monthly schedule, PyAirbyte S3 writer, and MotherDuck/S3 publisher.
+- [ ] Provision EC2 in ap-south-1 and verify a live run following [the deployment runbook](DEPLOYMENT.md).
 - [ ] dbt source freshness on S3 (`_airbyte_extracted_at`): warn if the latest sync is older than 40 days.
 - [ ] Revision alerts: compare the latest vs previous sync per series (contract §6 `revision_alerts`).
-- [ ] Re-register the declarative-manifest runtime v7 in Airbyte's DB after any reinstall (the cron updater gets a 403 from Docker Hub).

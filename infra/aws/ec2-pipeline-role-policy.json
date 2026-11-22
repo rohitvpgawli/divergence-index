@@ -1,0 +1,40 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": ["s3:ListBucket", "s3:GetBucketLocation"],
+      "Resource": "arn:aws:s3:::divergence-index-data-lqpeej"
+    },
+    {
+      "Effect": "Allow",
+      "Action": ["s3:GetObject", "s3:PutObject", "s3:AbortMultipartUpload"],
+      "Resource": [
+        "arn:aws:s3:::divergence-index-data-lqpeej/airbyte/*",
+        "arn:aws:s3:::divergence-index-data-lqpeej/gold/*"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": "s3:DeleteObject",
+      "Resource": "arn:aws:s3:::divergence-index-data-lqpeej/airbyte/*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "ssm:GetParameter",
+      "Resource": "arn:aws:ssm:ap-south-1:<ACCOUNT_ID>:parameter/divergence/*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "kms:Decrypt",
+      "Resource": "arn:aws:kms:ap-south-1:<ACCOUNT_ID>:key/*",
+      "Condition": {
+        "ForAnyValue:StringEquals": {"kms:ResourceAliases": "alias/aws/ssm"},
+        "StringEquals": {"kms:ViaService": "ssm.ap-south-1.amazonaws.com"},
+        "StringLike": {
+          "kms:EncryptionContext:PARAMETER_ARN": "arn:aws:ssm:ap-south-1:<ACCOUNT_ID>:parameter/divergence/*"
+        }
+      }
+    }
+  ]
+}

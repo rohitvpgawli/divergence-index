@@ -1,0 +1,25 @@
+[Unit]
+Description=Divergence Index Dagster webserver
+Wants=network-online.target
+After=network-online.target
+StartLimitIntervalSec=0
+
+[Service]
+User=divergence
+Group=divergence
+WorkingDirectory=/opt/divergence-index
+Environment=HOME=/var/lib/divergence
+Environment=DAGSTER_HOME=/var/lib/divergence/dagster
+Environment=DUCKDB_PATH=/var/lib/divergence/warehouse.duckdb
+Environment=DIVERGENCE_AWS_CHAIN=instance
+Environment=DO_NOT_TRACK=1
+Environment=AWS_REGION=ap-south-1
+EnvironmentFile=-/etc/divergence/env
+ExecStartPre=/opt/divergence-index/infra/ec2/fetch-secrets.sh
+ExecStart=/opt/divergence-index/.venv/bin/dagster-webserver -h 127.0.0.1 -p 3000 -w pipeline/orchestration/workspace.yaml
+Restart=on-failure
+RestartSec=15
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target
