@@ -16,6 +16,9 @@ Environment=DBT_SEND_ANONYMOUS_USAGE_STATS=false
 Environment=DUCKDB_PATH=/var/lib/divergence/warehouse.duckdb
 Environment=DIVERGENCE_AWS_CHAIN=instance
 Environment=DO_NOT_TRACK=1
+Environment=AIRBYTE_LOGGING_ROOT=/var/lib/divergence/airbyte/logs
+Environment=AIRBYTE_CACHE_ROOT=/var/lib/divergence/airbyte/cache
+Environment=AIRBYTE_TEMP_DIR=/var/lib/divergence/airbyte/tmp
 Environment=AWS_REGION=ap-south-1
 EnvironmentFile=-/etc/divergence/env
 ExecStartPre=/opt/divergence-index/infra/ec2/fetch-secrets.sh
