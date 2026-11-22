@@ -13,6 +13,10 @@ divergence_index:
       path: "{{ env_var('DUCKDB_PATH', 'data/warehouse.duckdb') }}"
       threads: 4
       extensions: [httpfs, aws]
+      settings:
+        # one DuckDB thread = fixed floating-point summation order, so identical
+        # inputs give byte-identical gold (no 1e-13 noise in git history)
+        threads: 1
       secrets:
         - type: s3
           provider: credential_chain
