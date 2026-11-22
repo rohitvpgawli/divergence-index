@@ -1,30 +1,35 @@
 # Deploy the monthly Divergence Index refresh
 
-Run the AWS commands from a workstation with AWS CLI v2, an authenticated AWS session, and the Session Manager plugin. The operator needs permission to create and pass the instance role, provision EC2, write the SSM parameters, and start SSM sessions. The existing bucket is `divergence-index-data-lqpeej` in `ap-south-1`.
+Mango-hermes is an existing EC2 instance in `ap-south-1`. It runs Ubuntu 26 and already hosts other software. AWS CLI v2 is installed at `/usr/local/bin/aws`. The pipeline uses the existing bucket `divergence-index-data-lqpeej`.
 
-## 1. Instance role and profile
+Run the AWS commands from a workstation with AWS CLI v2, an authenticated AWS session, and the Session Manager plugin. The operator needs permission to inspect the attached instance profile, update its role policy, write the SSM parameters, and start SSM sessions.
 
-Run these commands from the repository root.
+## 1. Existing instance role
+
+The instance role is available to every process on Mango-hermes. Its permissions apply to the other software on the box as well. Add the pipeline policy to the attached role so the existing workloads keep their role and permissions.
+
+Run these commands from the repository root. If the lookup returns more than one instance, select the intended ID explicitly before continuing.
 
 ```bash
 export AWS_REGION=ap-south-1 AWS_DEFAULT_REGION=ap-south-1
-ROLE=divergence-ec2
+aws ec2 describe-instances --filters 'Name=tag:Name,Values=Mango-hermes' \
+  'Name=instance-state-name,Values=running' \
+  --query 'Reservations[].Instances[].[InstanceId,IamInstanceProfile.Arn]' --output table
+read -r -p 'Mango-hermes instance ID: ' INSTANCE_ID
+PROFILE_ARN=$(aws ec2 describe-instances --instance-ids "$INSTANCE_ID" \
+  --query 'Reservations[0].Instances[0].IamInstanceProfile.Arn' --output text)
+ROLE=$(aws iam get-instance-profile --instance-profile-name "${PROFILE_ARN##*/}" \
+  --query 'InstanceProfile.Roles[0].RoleName' --output text)
 ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
 
-aws iam create-role --role-name "$ROLE" \
-  --assume-role-policy-document file://infra/aws/ec2-trust-policy.json
 POLICY_FILE=$(mktemp)
 sed "s/<ACCOUNT_ID>/$ACCOUNT_ID/g" infra/aws/ec2-pipeline-role-policy.json > "$POLICY_FILE"
 aws iam put-role-policy --role-name "$ROLE" --policy-name divergence-pipeline \
   --policy-document "file://$POLICY_FILE"
 rm "$POLICY_FILE"
-aws iam attach-role-policy --role-name "$ROLE" \
-  --policy-arn arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
-aws iam create-instance-profile --instance-profile-name "$ROLE"
-aws iam add-role-to-instance-profile --instance-profile-name "$ROLE" --role-name "$ROLE"
 ```
 
-The role reads and writes the Airbyte and gold prefixes, deletes only Airbyte objects during writer rollback or staging cleanup, and reads the pipeline's SecureString parameters. The application verifies the batch owner before deleting any promoted bronze part.
+The role reads and writes the Airbyte and gold prefixes, deletes only Airbyte objects during writer rollback or staging cleanup, and reads the pipeline's SecureString parameters using the default `aws/ssm` key. The application verifies the batch owner before deleting any promoted bronze part.
 
 ## 2. SecureString parameters and MotherDuck
 
@@ -47,31 +52,12 @@ put_pipeline_secret /divergence/alert_webhook_url
 
 ## 3. Instance and network
 
-Use an existing VPC and a public subnet with an internet gateway. This example uses a public IP for outbound access and a new security group with zero inbound rules. A private subnet with outbound NAT also works. The instance needs outbound HTTPS for SSM, S3, package downloads, the SDMX APIs, and MotherDuck.
+Use the instance's existing network and Session Manager setup. The pipeline needs outbound HTTPS for SSM, S3, package downloads, the SDMX APIs, and MotherDuck. The Dagster UI binds to loopback and is reached through SSM port forwarding, so it needs no inbound security group rule. Check that Mango-hermes is online in Session Manager and that its role already grants the SSM agent permissions, typically through `AmazonSSMManagedInstanceCore`.
 
 ```bash
-aws ec2 describe-subnets \
-  --query 'Subnets[].[SubnetId,VpcId,AvailabilityZone,MapPublicIpOnLaunch]' --output table
-read -r -p 'Public subnet ID: ' SUBNET_ID
-VPC_ID=$(aws ec2 describe-subnets --subnet-ids "$SUBNET_ID" --query 'Subnets[0].VpcId' --output text)
-SG_ID=$(aws ec2 create-security-group --vpc-id "$VPC_ID" --group-name divergence-ec2 \
-  --description 'Divergence EC2 with Session Manager access' --query GroupId --output text)
-AMI_ID=$(aws ssm get-parameter \
-  --name /aws/service/canonical/ubuntu/server/24.04/stable/current/amd64/hvm/ebs-gp3/ami-id \
-  --query Parameter.Value --output text)
-INSTANCE_ID=$(aws ec2 run-instances --image-id "$AMI_ID" --instance-type t3.medium \
-  --iam-instance-profile Name="$ROLE" \
-  --network-interfaces "DeviceIndex=0,SubnetId=$SUBNET_ID,Groups=$SG_ID,AssociatePublicIpAddress=true" \
-  --block-device-mappings 'DeviceName=/dev/sda1,Ebs={VolumeSize=30,VolumeType=gp3,Encrypted=true,DeleteOnTermination=true}' \
-  --metadata-options HttpTokens=required,HttpEndpoint=enabled \
-  --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=divergence-ec2}]' \
-  --query 'Instances[0].InstanceId' --output text)
-aws ec2 wait instance-status-ok --instance-ids "$INSTANCE_ID"
 aws ssm describe-instance-information \
   --filters "Key=InstanceIds,Values=$INSTANCE_ID" --query 'InstanceInformationList[0].PingStatus'
 ```
-
-Wait for SSM to report `Online`. If the instance profile was just created and EC2 reports it as invalid, retry launch once IAM has propagated.
 
 ## 4. Bootstrap and operate
 
@@ -92,6 +78,19 @@ sudo systemctl status dagster-daemon dagster-webserver --no-pager
 sudo journalctl -u dagster-daemon -u dagster-webserver -n 100 --no-pager
 ```
 
+On Mango-hermes, verify that the service user can read the Git revision and run dbt parse. The offline target keeps this check local.
+
+```bash
+sudo -u divergence env HOME=/var/lib/divergence \
+  DUCKDB_PATH=/var/lib/divergence/warehouse.duckdb \
+  DBT_LOG_PATH=/var/lib/divergence/dbt/logs \
+  DBT_TARGET_PATH=/var/lib/divergence/dbt/target \
+  DBT_SEND_ANONYMOUS_USAGE_STATS=false \
+  sh -c 'cd /opt/divergence-index &&
+    git rev-parse --short HEAD &&
+    .venv/bin/dbt parse --project-dir pipeline/transform --profiles-dir pipeline/transform --target offline'
+```
+
 Start the port forward from the workstation.
 
 ```bash
@@ -102,7 +101,7 @@ aws ssm start-session --target "$INSTANCE_ID" \
 
 Open `http://127.0.0.1:3000`, select **Jobs → monthly_refresh → Launchpad**, and launch with the default config. Confirm that ingest, build, export, and publish succeeded. Check the schedule and failure sensor under **Automation**. The schedule uses `0 6 15 * *` in UTC. The expected `z_extreme_values_warn` warning allows processing to continue. The dbt profile uses one thread for both dbt and DuckDB and disables two cost-based join reorderings to keep floating-point output stable across first builds and rebuilds.
 
-The service account reads the installed checkout and writes state under `/var/lib/divergence`. Each run stores its dbt artifacts and checked gold files in its Dagster run directory. The root-owned checkout has push disabled. Wait for active runs to finish before deploying or reloading rotated secrets.
+The service account owns the checkout's scratch `data/` directory and trusts this checkout through its own Git configuration. Root owns the source and Git metadata, and the checkout has push disabled. The units send dbt logs, dbt targets, and Dagster state to `/var/lib/divergence`. Each scheduled run stores its dbt artifacts and checked gold files in its Dagster run directory. Wait for active runs to finish before deploying or reloading rotated secrets.
 
 ```bash
 sudo bash /opt/divergence-index/infra/ec2/deploy.sh

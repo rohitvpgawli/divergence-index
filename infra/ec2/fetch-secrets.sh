@@ -11,7 +11,7 @@ from pathlib import Path
 
 def parameter(name, optional=False):
     result = subprocess.run(
-        ["aws", "ssm", "get-parameter", "--region", "ap-south-1", "--with-decryption",
+        ["/usr/local/bin/aws", "ssm", "get-parameter", "--region", "ap-south-1", "--with-decryption",
          "--name", f"/divergence/{name}", "--output", "json", "--no-cli-pager"],
         capture_output=True, text=True,
     )

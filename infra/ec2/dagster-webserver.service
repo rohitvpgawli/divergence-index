@@ -10,6 +10,9 @@ Group=divergence
 WorkingDirectory=/opt/divergence-index
 Environment=HOME=/var/lib/divergence
 Environment=DAGSTER_HOME=/var/lib/divergence/dagster
+Environment=DBT_LOG_PATH=/var/lib/divergence/dbt/logs
+Environment=DBT_TARGET_PATH=/var/lib/divergence/dbt/target
+Environment=DBT_SEND_ANONYMOUS_USAGE_STATS=false
 Environment=DUCKDB_PATH=/var/lib/divergence/warehouse.duckdb
 Environment=DIVERGENCE_AWS_CHAIN=instance
 Environment=DO_NOT_TRACK=1

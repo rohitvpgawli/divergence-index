@@ -9,8 +9,12 @@ fi
 repo=/opt/divergence-index
 state=/var/lib/divergence
 ref=${1:-main}
+if [[ ! -x /usr/local/bin/aws ]]; then
+    printf '%s\n' 'Expected the existing AWS CLI v2 at /usr/local/bin/aws.' >&2
+    exit 1
+fi
 apt-get update
-apt-get install -y awscli ca-certificates curl git
+apt-get install -y ca-certificates curl git
 if ! id divergence >/dev/null 2>&1; then
     useradd --system --home-dir "$state" --shell /usr/sbin/nologin divergence
 fi
@@ -23,15 +27,10 @@ if [[ ! -x /usr/local/bin/uv ]]; then
         env UV_UNMANAGED_INSTALL=/usr/local/bin sh
 fi
 
-as_divergence() {
-    runuser -u divergence -- env HOME="$state" "$@"
-}
-
 if [[ ! -d $repo/.git ]]; then
     git clone --branch "$ref" https://github.com/rohitvpgawli/divergence-index.git "$repo"
 fi
 git -C "$repo" remote set-url --push origin DISABLED
 UV_PYTHON_INSTALL_DIR="$repo/.python" /usr/local/bin/uv sync --directory "$repo" --python 3.12 --frozen --no-dev
-as_divergence install -m 0600 "$repo/pipeline/orchestration/dagster.yaml" "$state/dagster/dagster.yaml"
 bash "$repo/infra/ec2/deploy.sh" --install-units
 systemctl enable --now dagster-daemon.service dagster-webserver.service

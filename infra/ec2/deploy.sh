@@ -11,8 +11,13 @@ state=/var/lib/divergence
 if [[ ${1:-} != --install-units ]]; then
     git -C "$repo" pull --ff-only
     UV_PYTHON_INSTALL_DIR="$repo/.python" /usr/local/bin/uv sync --directory "$repo" --frozen --no-dev
-    runuser -u divergence -- install -m 0600 "$repo/pipeline/orchestration/dagster.yaml" "$state/dagster/dagster.yaml"
 fi
+
+# Grant write access to scratch data while keeping code and Git metadata root-owned.
+chown -hR divergence:divergence "$repo/data"
+runuser -u divergence -- git config --file "$state/.gitconfig" --replace-all safe.directory "$repo" "^$repo$"
+install -d -o divergence -g divergence -m 0750 "$state/dbt/logs" "$state/dbt/target"
+runuser -u divergence -- install -m 0600 "$repo/pipeline/orchestration/dagster.yaml" "$state/dagster/dagster.yaml"
 install -m 0644 "$repo"/infra/ec2/dagster-*.service /etc/systemd/system/
 systemctl daemon-reload
 if [[ ${1:-} != --install-units ]]; then
